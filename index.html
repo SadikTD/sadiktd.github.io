@@ -20,38 +20,23 @@
     }
 
     [data-theme="dark"] {
-      --bg: #0b0b0b;
-      --bg-card: #131313;
-      --bg-card-hover: #1a1a1a;
-      --bg-input: #131313;
-      --border: #242424;
-      --border-hover: #383838;
-      --text-primary: #ededed;
-      --text-secondary: #737373;
-      --text-muted: #3d3d3d;
-      --shadow: 0 8px 32px rgba(0,0,0,0.5);
-      --header-bg: rgba(11,11,11,0.92);
+      --bg: #0b0b0b; --bg-card: #131313; --bg-card-hover: #1a1a1a;
+      --bg-input: #131313; --border: #242424; --border-hover: #383838;
+      --text-primary: #ededed; --text-secondary: #737373; --text-muted: #3d3d3d;
+      --shadow: 0 8px 32px rgba(0,0,0,0.5); --header-bg: rgba(11,11,11,0.92);
     }
 
     [data-theme="light"] {
-      --bg: #f0ede8;
-      --bg-card: #ffffff;
-      --bg-card-hover: #faf9f7;
-      --bg-input: #ffffff;
-      --border: #dedad3;
-      --border-hover: #c5c0b8;
-      --text-primary: #141414;
-      --text-secondary: #636363;
-      --text-muted: #b8b3ab;
-      --shadow: 0 8px 32px rgba(0,0,0,0.07);
-      --header-bg: rgba(240,237,232,0.92);
+      --bg: #f0ede8; --bg-card: #ffffff; --bg-card-hover: #faf9f7;
+      --bg-input: #ffffff; --border: #dedad3; --border-hover: #c5c0b8;
+      --text-primary: #141414; --text-secondary: #636363; --text-muted: #b8b3ab;
+      --shadow: 0 8px 32px rgba(0,0,0,0.07); --header-bg: rgba(240,237,232,0.92);
     }
 
     html { scroll-behavior: smooth; }
     body {
       background: var(--bg); color: var(--text-primary);
-      font-family: 'Barlow Semi Condensed', sans-serif;
-      min-height: 100vh;
+      font-family: 'Barlow Semi Condensed', sans-serif; min-height: 100vh;
       transition: background var(--transition), color var(--transition);
     }
 
@@ -95,10 +80,7 @@
       margin-bottom: 36px; padding-bottom: 32px; border-bottom: 1px solid var(--border);
       display: flex; align-items: flex-end; justify-content: space-between; gap: 20px;
     }
-    .hero-left h1 {
-      font-size: clamp(36px, 5vw, 58px); font-weight: 900; line-height: 1.0;
-      letter-spacing: -0.03em; color: var(--text-primary); margin-bottom: 10px;
-    }
+    .hero-left h1 { font-size: clamp(36px, 5vw, 58px); font-weight: 900; line-height: 1.0; letter-spacing: -0.03em; color: var(--text-primary); margin-bottom: 10px; }
     .hero-left h1 em { color: var(--accent); font-style: normal; }
     .hero-left p { font-size: 15px; font-weight: 400; color: var(--text-secondary); max-width: 460px; line-height: 1.55; }
     .hero-stats { display: flex; gap: 24px; flex-shrink: 0; }
@@ -106,6 +88,23 @@
     .hero-stat-num { font-size: 32px; font-weight: 900; letter-spacing: -0.03em; color: var(--text-primary); line-height: 1; }
     .hero-stat-num span { color: var(--accent); }
     .hero-stat-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-secondary); margin-top: 3px; }
+
+    /* CACHE NOTICE */
+    .cache-notice {
+      display: none; align-items: center; gap: 10px; margin-bottom: 16px;
+      padding: 10px 14px; border: 1px solid var(--border); border-radius: var(--radius);
+      background: var(--bg-card);
+    }
+    .cache-notice.visible { display: flex; }
+    .cache-notice-text { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-secondary); flex: 1; }
+    .cache-notice-text strong { color: var(--text-primary); }
+    .cache-refresh-btn {
+      font-family: 'JetBrains Mono', monospace; font-size: 10px; text-transform: uppercase;
+      letter-spacing: 0.06em; padding: 4px 10px; border: 1px solid var(--border);
+      border-radius: 100px; background: transparent; color: var(--text-secondary);
+      cursor: pointer; transition: all var(--transition); white-space: nowrap;
+    }
+    .cache-refresh-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
 
     /* SEARCH */
     .search-wrap { position: relative; margin-bottom: 20px; }
@@ -175,7 +174,6 @@
     .card-desc { font-size: 13px; font-weight: 400; color: var(--text-secondary); line-height: 1.55; flex: 1; }
     .card-meta { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-muted); }
     .card-actions { display: flex; gap: 8px; padding-top: 4px; }
-
     .btn-open {
       flex: 1; height: 36px; background: var(--accent); color: #fff; border: none;
       border-radius: var(--radius); font-family: 'Barlow Semi Condensed', sans-serif;
@@ -186,7 +184,6 @@
     .btn-open:hover { background: var(--accent-hover); transform: translateY(-1px); }
     .btn-open.repo-only { background: transparent; color: var(--text-secondary); border: 1px solid var(--border); }
     .btn-open.repo-only:hover { background: var(--bg-card-hover); color: var(--text-primary); border-color: var(--border-hover); }
-
     .btn-sm {
       width: 36px; height: 36px; border: 1px solid var(--border); border-radius: var(--radius);
       background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center;
@@ -224,7 +221,6 @@
     .footer-links a { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); text-decoration: none; transition: color var(--transition); }
     .footer-links a:hover { color: var(--accent); }
 
-    /* RESPONSIVE */
     @media (max-width: 700px) {
       .header { padding: 0 20px; }
       .main { padding: 24px 20px 40px; }
@@ -251,8 +247,8 @@
     </div>
     <div class="header-right">
       <div class="stat-pill"><span class="dot"></span><span id="stat-count">—</span> tools</div>
-      <div class="stat-pill"><span id="sync-text">Syncing…</span></div>
-      <button class="icon-btn" id="refresh-btn" title="Refresh from GitHub">
+      <div class="stat-pill"><span id="sync-text">Loading…</span></div>
+      <button class="icon-btn" id="refresh-btn" title="Force refresh from GitHub (bypasses cache)">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M1 4v6h6"/><path d="M23 20v-6h-6"/>
           <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4-4.64 4.36A9 9 0 0 1 3.51 15"/>
@@ -268,7 +264,7 @@
     <div class="hero">
       <div class="hero-left">
         <h1>All Tools,<br><em>One Place.</em></h1>
-        <p>Every tool Sadik has built — auto-synced from GitHub every visit. New repos appear here automatically, no manual updates needed.</p>
+        <p>Every tool Sadik has built — auto-synced from GitHub. New repos appear here automatically, no manual updates needed.</p>
       </div>
       <div class="hero-stats">
         <div class="hero-stat">
@@ -280,6 +276,15 @@
           <div class="hero-stat-label">External Tools</div>
         </div>
       </div>
+    </div>
+
+    <!-- Cache notice bar — shown when serving from cache -->
+    <div class="cache-notice" id="cache-notice">
+      <div class="cache-notice-text">
+        Showing cached data from <strong id="cache-age-text"></strong>.
+        GitHub API is only called once every 30 minutes to stay within rate limits.
+      </div>
+      <button class="cache-refresh-btn" id="cache-refresh-btn">Force Refresh</button>
     </div>
 
     <div class="search-wrap">
@@ -320,11 +325,15 @@
 
   <script>
     // ================================================================
-    //  ⚙️  CONFIG — The only part you ever need to edit
+    //  ⚙️  CONFIG
     // ================================================================
     const CONFIG = {
 
       github_username: 'sadiktd',
+
+      // How long to cache GitHub API results before auto-refreshing (minutes)
+      // 30 minutes = safe for GitHub's 60 requests/hour unauthenticated limit
+      cache_ttl_minutes: 30,
 
       // Repo names to pin at top (case-insensitive)
       pinned: [
@@ -332,17 +341,17 @@
         'cc-image-finder'
       ],
 
-      // Repos to completely hide (profile README, the homepage repo itself, etc.)
+      // Repos to completely hide
       hidden: [
         'sadiktd',
         'sadiktd.github.io'
       ],
 
-      // Custom name / description / icon for any GitHub repo
+      // Custom name / description / icon overrides for GitHub repos
       overrides: {
         'newsbreak-monitor': {
           name: 'Newsbreak Article Monitor',
-          description: 'Track article performance across WGTC, AOTF, and Curveball publisher pages. Sortable, searchable, with live stats.',
+          description: 'Track article performance across WGTC, AOTF, and Curveball publisher pages.',
           icon: '📊'
         },
         'cc-image-finder': {
@@ -367,19 +376,11 @@
         }
       },
 
-      // ---------------------------------------------------------------
-      //  EXTERNAL TOOLS — for tools NOT hosted on GitHub
-      //  Copy a block and fill it in to add a new external tool.
-      // ---------------------------------------------------------------
+      // External tools (not hosted on GitHub)
       external_tools: [
         // {
-        //   id:          'my-tool',        // unique ID, no spaces
-        //   name:        'My Tool',
-        //   description: 'What it does.',
-        //   url:         'https://example.com',
-        //   icon:        '🔧',
-        //   pinned:      false,
-        //   updated:     '2025-12-01'      // YYYY-MM-DD, optional
+        //   id: 'my-tool', name: 'My Tool', description: 'What it does.',
+        //   url: 'https://example.com', icon: '🔧', pinned: false, updated: '2025-12-01'
         // }
       ]
 
@@ -388,9 +389,12 @@
     //  END CONFIG
     // ================================================================
 
+    const CACHE_KEY = 'sd_toolhub_cache';
+
     const lc       = s => (s || '').toLowerCase();
     const inList   = (arr, val) => arr.map(lc).includes(lc(val));
     const slugName = s => s.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+    const $        = id => document.getElementById(id);
 
     function autoIcon(name) {
       const n = lc(name);
@@ -422,11 +426,45 @@
       return Math.floor(days / 365) + 'y ago';
     }
 
+    function cacheAge(ts) {
+      const mins = Math.floor((Date.now() - ts) / 60000);
+      if (mins < 1)  return 'just now';
+      if (mins < 60) return mins + ' min ago';
+      const hrs = Math.floor(mins / 60);
+      return hrs + ' hour' + (hrs > 1 ? 's' : '') + ' ago';
+    }
+
+    // ---- cache helpers ----
+    function saveCache(repos) {
+      try {
+        localStorage.setItem(CACHE_KEY, JSON.stringify({ ts: Date.now(), repos }));
+      } catch(e) { /* localStorage full or blocked */ }
+    }
+
+    function loadCache() {
+      try {
+        const raw = localStorage.getItem(CACHE_KEY);
+        if (!raw) return null;
+        return JSON.parse(raw);
+      } catch(e) { return null; }
+    }
+
+    function clearCache() {
+      try { localStorage.removeItem(CACHE_KEY); } catch(e) {}
+    }
+
+    function isCacheValid(cached) {
+      if (!cached || !cached.ts || !cached.repos) return false;
+      const ageMs  = Date.now() - cached.ts;
+      const maxMs  = CONFIG.cache_ttl_minutes * 60 * 1000;
+      return ageMs < maxMs;
+    }
+
+    // ---- state ----
     let allTools = [], sortMode = 'default', query = '';
-    const $  = id => document.getElementById(id);
     let toastTimer;
 
-    // Theme
+    // ---- theme ----
     let theme = localStorage.getItem('sd-theme') || 'dark';
     applyTheme(theme);
 
@@ -444,7 +482,7 @@
         : '<circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="6.34" y2="6.34"/><line x1="17.66" y1="17.66" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="4.93" y1="19.07" x2="6.34" y2="17.66"/><line x1="17.66" y1="6.34" x2="19.07" y2="4.93"/>';
     }
 
-    // Keyboard shortcuts
+    // ---- keyboard shortcuts ----
     document.addEventListener('keydown', e => {
       const s = $('search');
       if ((e.key === '/' || (e.ctrlKey && e.key === 'k')) && document.activeElement !== s) {
@@ -469,10 +507,21 @@
       });
     });
 
+    // Refresh button — clears cache and force-fetches
     $('refresh-btn').addEventListener('click', () => {
-      if (!$('refresh-btn').classList.contains('spinning')) fetchTools();
+      if ($('refresh-btn').classList.contains('spinning')) return;
+      clearCache();
+      fetchFromGitHub();
     });
 
+    // Cache notice "Force Refresh" button
+    $('cache-refresh-btn').addEventListener('click', () => {
+      clearCache();
+      $('cache-notice').classList.remove('visible');
+      fetchFromGitHub();
+    });
+
+    // ---- skeletons ----
     function showSkeletons(n) {
       $('main-grid').innerHTML = Array.from({ length: n || 6 }, (_, i) => `
         <div class="skeleton" style="animation-delay:${i*40}ms">
@@ -485,8 +534,68 @@
         </div>`).join('');
     }
 
-    // ---- CORE: fetch ALL public repos, no Pages filter ----
-    async function fetchTools() {
+    // ---- build tool objects from raw GitHub repos ----
+    function reposToTools(repos) {
+      const uname = lc(CONFIG.github_username);
+      return repos
+        .filter(r => !r.private && !inList(CONFIG.hidden, r.name))
+        .map(r => {
+          const key = lc(r.name);
+          const ov  = Object.entries(CONFIG.overrides).find(([k]) => lc(k) === key)?.[1] || {};
+          const isRoot = key === uname + '.github.io';
+          const pagesUrl = isRoot
+            ? 'https://' + uname + '.github.io'
+            : 'https://' + uname + '.github.io/' + r.name;
+          return {
+            id:          r.name,
+            name:        ov.name        || slugName(r.name),
+            description: ov.description || r.description || 'No description provided.',
+            url:         r.has_pages ? pagesUrl : r.html_url,
+            github_url:  r.html_url,
+            has_pages:   r.has_pages,
+            icon:        ov.icon        || autoIcon(r.name),
+            pinned:      inList(CONFIG.pinned, r.name),
+            updated:     r.pushed_at,
+            source:      'github'
+          };
+        });
+    }
+
+    // ---- populate UI from tool list ----
+    function populateTools(githubTools, fromCache, cacheTs) {
+      const externalTools = (CONFIG.external_tools || []).map(t => ({
+        ...t, github_url: null, has_pages: false, source: 'external',
+        pinned: t.pinned || inList(CONFIG.pinned, t.id)
+      }));
+
+      allTools = [...githubTools, ...externalTools];
+
+      $('stat-count').textContent  = allTools.length;
+      $('h-github').innerHTML      = '<span>' + githubTools.length + '</span>';
+      $('h-external').innerHTML    = '<span>' + externalTools.length + '</span>';
+
+      if (fromCache && cacheTs) {
+        const ts  = new Date(cacheTs);
+        const tStr = ts.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        const dStr = ts.toLocaleDateString([], { month: 'short', day: 'numeric', year: 'numeric' });
+        $('sync-text').textContent      = 'Cached';
+        $('footer-sync').textContent    = 'Data from: ' + dStr + ', ' + tStr;
+        $('cache-age-text').textContent = cacheAge(cacheTs);
+        $('cache-notice').classList.add('visible');
+      } else {
+        const now  = new Date();
+        const tStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        const dStr = now.toLocaleDateString([], { month: 'short', day: 'numeric', year: 'numeric' });
+        $('sync-text').textContent   = 'Synced ' + tStr;
+        $('footer-sync').textContent = 'Last synced: ' + dStr + ', ' + tStr;
+        $('cache-notice').classList.remove('visible');
+      }
+
+      renderTools();
+    }
+
+    // ---- main fetch function (hits GitHub API) ----
+    async function fetchFromGitHub() {
       showSkeletons();
       $('pinned-section').style.display = 'none';
       $('sync-text').textContent = 'Syncing…';
@@ -496,10 +605,23 @@
         let page = 1, repos = [];
         while (true) {
           const res = await fetch(
-            `https://api.github.com/users/${CONFIG.github_username}/repos?per_page=100&page=${page}&sort=updated`,
+            'https://api.github.com/users/' + CONFIG.github_username + '/repos?per_page=100&page=' + page + '&sort=updated',
             { headers: { 'Accept': 'application/vnd.github.v3+json' } }
           );
-          if (!res.ok) throw new Error('GitHub API returned ' + res.status + '. You may have hit the rate limit — try again in a minute.');
+
+          if (res.status === 403 || res.status === 429) {
+            // Rate limited — load from cache if available, even if stale
+            const cached = loadCache();
+            if (cached && cached.repos) {
+              toast('Rate limited — showing last cached data');
+              populateTools(reposToTools(cached.repos), true, cached.ts);
+              return;
+            }
+            throw new Error('GitHub rate limit hit (403). Wait a few minutes, then click the refresh button.');
+          }
+
+          if (!res.ok) throw new Error('GitHub API error ' + res.status);
+
           const batch = await res.json();
           if (!Array.isArray(batch) || !batch.length) break;
           repos = repos.concat(batch);
@@ -507,55 +629,16 @@
           page++;
         }
 
-        const uname = lc(CONFIG.github_username);
+        // Save to cache
+        saveCache(repos);
 
-        const githubTools = repos
-          .filter(r => !r.private && !inList(CONFIG.hidden, r.name))
-          .map(r => {
-            const key = lc(r.name);
-            const ov  = Object.entries(CONFIG.overrides).find(([k]) => lc(k) === key)?.[1] || {};
-            const isRoot = key === uname + '.github.io';
-            const pagesUrl = isRoot
-              ? `https://${uname}.github.io`
-              : `https://${uname}.github.io/${r.name}`;
-            return {
-              id:          r.name,
-              name:        ov.name        || slugName(r.name),
-              description: ov.description || r.description || 'No description provided.',
-              url:         r.has_pages ? pagesUrl : r.html_url,
-              github_url:  r.html_url,
-              has_pages:   r.has_pages,
-              icon:        ov.icon        || autoIcon(r.name),
-              pinned:      inList(CONFIG.pinned, r.name),
-              updated:     r.pushed_at,
-              source:      'github'
-            };
-          });
-
-        const externalTools = (CONFIG.external_tools || []).map(t => ({
-          ...t, github_url: null, has_pages: false, source: 'external',
-          pinned: t.pinned || inList(CONFIG.pinned, t.id)
-        }));
-
-        allTools = [...githubTools, ...externalTools];
-
-        const now = new Date();
-        const ts  = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        const ds  = now.toLocaleDateString([], { month: 'short', day: 'numeric', year: 'numeric' });
-
-        $('sync-text').textContent   = 'Synced ' + ts;
-        $('footer-sync').textContent = 'Last synced: ' + ds + ', ' + ts;
-        $('stat-count').textContent  = allTools.length;
-        $('h-github').innerHTML      = '<span>' + githubTools.length + '</span>';
-        $('h-external').innerHTML    = '<span>' + externalTools.length + '</span>';
-
-        renderTools();
+        populateTools(reposToTools(repos), false, null);
 
       } catch (err) {
         $('main-grid').innerHTML = `
           <div class="state-box">
             <div class="state-icon">⚠️</div>
-            <div class="state-msg">${err.message || 'Failed to load. Check connection and refresh.'}</div>
+            <div class="state-msg">${err.message}</div>
           </div>`;
         $('sync-text').textContent = 'Error — click ↻ to retry';
         console.error('[ToolHub]', err);
@@ -564,6 +647,22 @@
       }
     }
 
+    // ---- init: try cache first, only call GitHub if needed ----
+    function init() {
+      showSkeletons();
+
+      const cached = loadCache();
+
+      if (isCacheValid(cached)) {
+        // Cache is fresh — use it immediately, no API call
+        populateTools(reposToTools(cached.repos), true, cached.ts);
+      } else {
+        // Cache is stale or missing — fetch from GitHub
+        fetchFromGitHub();
+      }
+    }
+
+    // ---- render ----
     function renderTools() {
       let list = allTools.filter(t =>
         !query || lc(t.name).includes(query) || lc(t.description).includes(query)
@@ -587,10 +686,9 @@
       if (showPinned) $('pinned-grid').innerHTML = pinned.map(buildCard).join('');
 
       const toShow = (!query && sortMode === 'default') ? rest : list;
-
       $('main-grid').innerHTML = toShow.length
         ? toShow.map(buildCard).join('')
-        : `<div class="state-box"><div class="state-icon">🔍</div><div class="state-msg">No tools match "${query}"</div></div>`;
+        : '<div class="state-box"><div class="state-icon">🔍</div><div class="state-msg">No tools match "' + query + '"</div></div>';
 
       document.querySelectorAll('[data-copy]').forEach(btn => {
         btn.addEventListener('click', () => {
@@ -599,8 +697,13 @@
       });
     }
 
+    // ---- card builder ----
     function buildCard(t, i) {
-      const delay = Math.min((i || 0) * 35, 300);
+      const delay      = Math.min((i || 0) * 35, 300);
+      const isLive     = t.has_pages || t.source === 'external';
+      const btnClass   = isLive ? 'btn-open' : 'btn-open repo-only';
+      const btnLabel   = isLive ? 'Open Tool' : 'View Repo';
+      const arrowSvg   = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>';
 
       const sourceBadge = t.source === 'external'
         ? '<span class="badge badge-ext">External</span>'
@@ -608,38 +711,21 @@
           ? '<span class="badge badge-live">● Live</span>'
           : '<span class="badge badge-repo">Repo</span>';
 
-      const isLive = t.has_pages || t.source === 'external';
-      const btnLabel = isLive ? 'Open Tool' : 'View Repo';
-      const btnClass = isLive ? 'btn-open' : 'btn-open repo-only';
-
-      const arrowSvg = `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>`;
-
       const ghBtn = t.github_url
-        ? `<a class="btn-sm" href="${t.github_url}" target="_blank" rel="noopener" title="View on GitHub">
-             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
-           </a>`
-        : `<span class="btn-sm ghost"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></span>`;
+        ? '<a class="btn-sm" href="' + t.github_url + '" target="_blank" rel="noopener" title="View on GitHub"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg></a>'
+        : '<span class="btn-sm ghost"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></span>';
 
-      return `
-        <div class="card${t.pinned ? ' is-pinned' : ''}" style="animation-delay:${delay}ms">
-          <div class="card-top">
-            <span class="card-icon">${t.icon}</span>
-            <div class="card-badges">
-              ${t.pinned ? '<span class="badge badge-pin">Pinned</span>' : ''}
-              ${sourceBadge}
-            </div>
-          </div>
-          <div class="card-name">${t.name}</div>
-          <div class="card-desc">${t.description}</div>
-          ${t.updated ? `<div class="card-meta">Updated ${relTime(t.updated)}</div>` : ''}
-          <div class="card-actions">
-            <a class="${btnClass}" href="${t.url}" target="_blank" rel="noopener">${btnLabel} ${arrowSvg}</a>
-            <button class="btn-sm" data-copy="${t.url}" title="Copy link">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-            </button>
-            ${ghBtn}
-          </div>
-        </div>`;
+      return '<div class="card' + (t.pinned ? ' is-pinned' : '') + '" style="animation-delay:' + delay + 'ms">'
+        + '<div class="card-top"><span class="card-icon">' + t.icon + '</span>'
+        + '<div class="card-badges">' + (t.pinned ? '<span class="badge badge-pin">Pinned</span>' : '') + sourceBadge + '</div></div>'
+        + '<div class="card-name">' + t.name + '</div>'
+        + '<div class="card-desc">' + t.description + '</div>'
+        + (t.updated ? '<div class="card-meta">Updated ' + relTime(t.updated) + '</div>' : '')
+        + '<div class="card-actions">'
+        + '<a class="' + btnClass + '" href="' + t.url + '" target="_blank" rel="noopener">' + btnLabel + ' ' + arrowSvg + '</a>'
+        + '<button class="btn-sm" data-copy="' + t.url + '" title="Copy link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>'
+        + ghBtn
+        + '</div></div>';
     }
 
     function toast(msg) {
@@ -647,12 +733,11 @@
       el.textContent = msg;
       el.classList.add('show');
       clearTimeout(toastTimer);
-      toastTimer = setTimeout(() => el.classList.remove('show'), 2400);
+      toastTimer = setTimeout(() => el.classList.remove('show'), 2600);
     }
 
-    // Init
-    showSkeletons();
-    fetchTools();
+    // Start
+    init();
   </script>
 </body>
 </html>

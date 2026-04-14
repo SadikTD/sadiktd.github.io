@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sadik's Tool Hub</title>
+  <meta name="description" content="A centralized hub for all of Sadik's web tools and utilities.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@400;500;600;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --accent: #DC2626;
+      --accent-dim: rgba(220,38,38,0.12);
+      --accent-hover: #ef4444;
+      --radius: 7px;
+      --transition: 0.18s ease;
+    }
+
+    [data-theme="dark"] {
+      --bg: #0b0b0b;
+      --bg-card: #131313;
+      --bg-card-hover: #1a1a1a;
+      --bg-input: #131313;
+      --border: #242424;
+      --border-hover: #383838;
+      --text-primary: #ededed;
+      --text-secondary: #737373;
+      --text-muted: #3d3d3d;
+      --shadow: 0 8px 32px rgba(0,0,0,0.5);
+      --header-bg: rgba(11,11,11,0.92);
+    }
+
+    [data-theme="light"] {
+      --bg: #f0ede8;
+      --bg-card: #ffffff;
+      --bg-card-hover: #faf9f7;
+      --bg-input: #ffffff;
+      --border: #dedad3;
+      --border-hover: #c5c0b8;
+      --text-primary: #141414;
+      --text-secondary: #636363;
+      --text-muted: #b8b3ab;
+      --shadow: 0 8px 32px rgba(0,0,0,0.07);
+      --header-bg: rgba(240,237,232,0.92);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text-primary);
+      font-family: 'Barlow Semi Condensed', sans-serif;
+      min-height: 100vh;
+      transition: background var(--transition), color var(--transition);
+    }
+
+    /* ===== HEADER ===== */
+    .header {
+      border-bottom: 1px solid var(--border);
+      padding: 0 32px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      background: var(--header-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      z-index: 100;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-mark {
+      width: 28px;
+      height: 28px;
+      background: var(--accent);
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 14px;
+      color: #fff;
+      letter-spacing: -0.05em;
+      flex-shrink: 0;
+    }
+
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+
+    .logo-name {
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: var(--text-primary);
+      line-height: 1;
+    }
+
+    .logo-tagline {
+      font-size: 10px;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-secondary);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      line-height: 1;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .stat-pill {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      padding: 4px 10px;
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      color: var(--text-secondary);
+      background: transparent;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      white-space: nowrap;
+    }
+
+    .stat-pill .dot {
+      width: 5px;
+      height: 5px;
+      background: var(--accent);
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .icon-btn {
+      width: 34px;
+      height: 34px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: transparent;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-secondary);
+      transition: all var(--transition);
+      flex-shrink: 0;
+    }
+
+    .icon-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-dim);
+    }
+
+    .icon-btn svg { width: 15px; height: 15px; }
+    .icon-btn.spinning svg { animation: spin 0.7s linear infinite; }
+
+    /* ===== MAIN ===== */
+    .main {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 32px 32px 48px;
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      margin-bottom: 36px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .hero-left h1 {
+      font-size: clamp(36px, 5vw, 58px);
+      font-weight: 900;
+      line-height: 1.0;
+      letter-spacing: -0.03em;
+      color: var(--text-primary);
+      margin-bottom: 10px;
+    }
+
+    .hero-left h1 em {
+      color: var(--accent);
+      font-style: normal;
+    }
+
+    .hero-left p {
+      font-size: 15px;
+      font-weight: 400;
+      color: var(--text-secondary);
+      max-width: 460px;
+      line-height: 1.55;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 24px;
+      flex-shrink: 0;
+    }
+
+    .hero-stat {
+      text-align: right;
+    }
+
+    .hero-stat-num {
+      font-size: 32px;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      color: var(--text-primary);
+      line-height: 1;
+    }
+
+    .hero-stat-num span { color: var(--accent); }
+
+    .hero-stat-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-secondary);
+      margin-top: 3px;
+    }
+
+    /* ===== SEARCH ===== */
+    .search-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      align-items: stretch;
+    }
+
+    .search-wrap {
+      position: relative;
+      flex: 1;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+
+    .search-input {
+      width: 100%;
+      height: 44px;
+      padding: 0 110px 0 42px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--bg-input);
+      color: var(--text-primary);
+      font-family: 'Barlow Semi Condensed', sans-serif;
+      font-size: 15px;
+      font-weight: 500;
+      outline: none;
+      transition: border-color var(--transition), box-shadow var(--transition);
+    }
+
+    .search-input::placeholder { color: var(--text-muted); font-weight: 400; }
+
+    .search-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-dim);
+    }
+
+    .search-shortcut {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+      padding: 2px 7px;
+      border-radius: 4px;
+      pointer-events: none;
+      transition: opacity var(--transition);
+    }
+
+    .search-input:focus ~ .search-shortcut { opacity: 0; }
+
+    /* ===== TOOLBAR ===== */
+    .toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .result-count {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--text-secondary);
+    }
+
+    .result-count strong { color: var(--accent); font-weight: 500; }
+
+    .sort-btns {
+      display: flex;
+      gap: 6px;
+    }
+
+    .sort-btn {
+      height: 30px;
+      padding: 0 12px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      background: transparent;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .sort-btn:hover, .sort-btn.active {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-dim);
+    }
+
+    /* ===== SECTION LABEL ===== */
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ===== GRID ===== */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+      gap: 14px;
+      margin-bottom: 36px;
+    }
+
+    /* ===== CARD ===== */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: border-color var(--transition), background var(--transition), box-shadow var(--transition), transform var(--transition);
+      animation: slideUp 0.35s ease both;
+      position: relative;
+    }
+
+    .card:hover {
+      border-color: var(--border-hover);
+      background: var(--bg-card-hover);
+      box-shadow: var(--shadow);
+      transform: translateY(-2px);
+    }
+
+    .card.is-pinned {
+      border-left: 3px solid var(--accent);
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .card-icon { font-size: 26px; line-height: 1; flex-shrink: 0; }
+
+    .card-badges { display: flex; gap: 5px; flex-wrap: wrap; }
+
+    .badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      padding: 2px 7px;
+      border-radius: 100px;
+      border: 1px solid;
+      line-height: 1.5;
+    }
+
+    .badge-pin  { color: var(--accent); border-color: var(--accent); background: var(--accent-dim); }
+    .badge-ext  { color: var(--text-muted); border-color: var(--border); }
+    .badge-gh   { color: var(--text-muted); border-color: var(--border); }
+
+    .card-name {
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: var(--text-primary);
+      line-height: 1.25;
+    }
+
+    .card-desc {
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--text-secondary);
+      line-height: 1.55;
+      flex: 1;
+    }
+
+    .card-meta {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card-meta .sep { color: var(--border); }
+
+    .card-actions {
+      display: flex;
+      gap: 8px;
+      padding-top: 4px;
+    }
+
+    .btn-open {
+      flex: 1;
+      height: 36px;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius);
+      font-family: 'Barlow Semi Condensed', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      cursor: pointer;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: background var(--transition), transform var(--transition);
+    }
+
+    .btn-open:hover { background: var(--accent-hover); transform: translateY(-1px); }
+
+    .btn-sm {
+      width: 36px;
+      height: 36px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: transparent;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: all var(--transition);
+      flex-shrink: 0;
+    }
+
+    .btn-sm:hover { border-color: var(--border-hover); color: var(--text-primary); }
+    .btn-sm svg { width: 13px; height: 13px; }
+    .btn-sm.disabled { opacity: 0.25; cursor: default; pointer-events: none; }
+
+    /* ===== SKELETON CARDS ===== */
+    .skeleton {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .skel-line {
+      border-radius: 4px;
+      background: linear-gradient(90deg, var(--border) 25%, var(--border-hover) 50%, var(--border) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.4s ease infinite;
+    }
+
+    @keyframes shimmer { to { background-position: -200% 0; } }
+
+    /* ===== EMPTY / ERROR ===== */
+    .state-box {
+      grid-column: 1 / -1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 64px 20px;
+      gap: 14px;
+      color: var(--text-muted);
+    }
+
+    .state-icon { font-size: 36px; }
+    .state-msg  { font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.04em; }
+
+    /* ===== TOAST ===== */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: var(--radius);
+      padding: 11px 18px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--text-primary);
+      z-index: 9999;
+      transform: translateY(80px);
+      opacity: 0;
+      pointer-events: none;
+      transition: transform 0.22s ease, opacity 0.22s ease;
+      box-shadow: var(--shadow);
+    }
+
+    .toast.show { transform: translateY(0); opacity: 1; }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      border-top: 1px solid var(--border);
+      padding: 18px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .footer-text {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .footer-links { display: flex; gap: 20px; }
+
+    .footer-links a {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color var(--transition);
+    }
+
+    .footer-links a:hover { color: var(--accent); }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 700px) {
+      .header { padding: 0 20px; }
+      .main { padding: 24px 20px 40px; }
+      .hero { flex-direction: column; gap: 16px; align-items: flex-start; }
+      .hero-stats { flex-direction: row; gap: 20px; }
+      .hero-stat { text-align: left; }
+      .grid { grid-template-columns: 1fr; gap: 12px; }
+      .stat-pill { display: none; }
+      .footer { flex-direction: column; align-items: flex-start; padding: 16px 20px; }
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header class="header">
+    <div class="logo">
+      <div class="logo-mark">ST</div>
+      <div class="logo-text">
+        <div class="logo-name">Sadik's Tools</div>
+        <div class="logo-tagline">Personal Tool Hub</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="stat-pill" id="stat-total"><span class="dot"></span><span id="stat-count">—</span> tools</div>
+      <div class="stat-pill" id="stat-sync"><span id="sync-text">Syncing…</span></div>
+      <button class="icon-btn" id="refresh-btn" title="Refresh from GitHub">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 4v6h6"/><path d="M23 20v-6h-6"/><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4-4.64 4.36A9 9 0 0 1 3.51 15"/></svg>
+      </button>
+      <button class="icon-btn" id="theme-btn" title="Toggle light / dark">
+        <svg id="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- ===== MAIN ===== -->
+  <main class="main">
+
+    <!-- HERO -->
+    <div class="hero">
+      <div class="hero-left">
+        <h1>All Tools,<br><em>One Place.</em></h1>
+        <p>Every tool Sadik has built — auto-synced from GitHub Pages and external sources. Search, open, or copy a link instantly.</p>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-num" id="h-github"><span>—</span></div>
+          <div class="hero-stat-label">GitHub Tools</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num" id="h-external"><span>—</span></div>
+          <div class="hero-stat-label">External Tools</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEARCH ROW -->
+    <div class="search-row">
+      <div class="search-wrap">
+        <div class="search-icon">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        </div>
+        <input class="search-input" id="search" type="text" placeholder="Search tools by name or description…" autocomplete="off" spellcheck="false">
+        <span class="search-shortcut">/ to focus · Esc to clear</span>
+      </div>
+    </div>
+
+    <!-- TOOLBAR -->
+    <div class="toolbar">
+      <div class="result-count" id="result-count"></div>
+      <div class="sort-btns">
+        <button class="sort-btn active" data-sort="default">Default</button>
+        <button class="sort-btn" data-sort="az">A – Z</button>
+        <button class="sort-btn" data-sort="updated">Latest</button>
+      </div>
+    </div>
+
+    <!-- PINNED SECTION -->
+    <div id="pinned-section" style="display:none">
+      <div class="section-label">Pinned</div>
+      <div class="grid" id="pinned-grid"></div>
+    </div>
+
+    <!-- ALL TOOLS -->
+    <div class="section-label" id="all-label">All Tools</div>
+    <div class="grid" id="main-grid"></div>
+
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="footer-text" id="footer-sync">Last synced: —</div>
+    <div class="footer-links">
+      <a href="https://github.com/sadiktd" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://sadiktd.github.io" target="_blank" rel="noopener">Homepage</a>
+    </div>
+  </footer>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // ================================================================
+    //  CONFIG — The only section you need to edit
+    // ================================================================
+    const CONFIG = {
+
+      // Your GitHub username — DO NOT change
+      github_username: 'sadiktd',
+
+      // Repo names to show pinned at the top (exact GitHub repo names)
+      pinned: [
+        'newsbreak-article-monitor'
+      ],
+
+      // Repos to completely hide from the hub (e.g. profile README, homepage repo)
+      hidden: [
+        'sadiktd',
+        'sadiktd.github.io'
+      ],
+
+      // Custom metadata overrides for any GitHub repo (by repo name)
+      // If not listed here, name/description are auto-generated from GitHub data
+      overrides: {
+        'newsbreak-article-monitor': {
+          name: 'Newsbreak Article Monitor',
+          description: 'Track article performance across WGTC, AOTF, and Curveball publisher pages. Sortable, searchable, with live stats.',
+          icon: '📊'
+        }
+      },
+
+      // ---------------------------------------------------------------
+      // EXTERNAL TOOLS (not hosted on GitHub Pages)
+      // To add a new one, copy the block below and add it to this array
+      // ---------------------------------------------------------------
+      external_tools: [
+
+        // {
+        //   id: 'cc-image-finder',
+        //   name: 'CC Image Finder',
+        //   description: 'Find Creative Commons-licensed images for editorial use. Used by ~50 team members across the network.',
+        //   url: 'https://your-url-here.com',
+        //   icon: '🔍',
+        //   pinned: false,
+        //   updated: '2025-11-01'   // optional, YYYY-MM-DD format
+        // },
+
+      ]
+
+    };
+    // ================================================================
+    //  END CONFIG
+    // ================================================================
+
+
+    // ---- STATE ----
+    let allTools   = [];
+    let sortMode   = 'default';
+    let query      = '';
+
+    // ---- REFS ----
+    const mainGrid     = document.getElementById('main-grid');
+    const pinnedGrid   = document.getElementById('pinned-grid');
+    const pinnedSec    = document.getElementById('pinned-section');
+    const resultCount  = document.getElementById('result-count');
+    const statCount    = document.getElementById('stat-count');
+    const syncText     = document.getElementById('sync-text');
+    const footerSync   = document.getElementById('footer-sync');
+    const searchInput  = document.getElementById('search');
+    const toastEl      = document.getElementById('toast');
+    const hGithub      = document.getElementById('h-github');
+    const hExternal    = document.getElementById('h-external');
+    const refreshBtn   = document.getElementById('refresh-btn');
+
+    // ---- THEME ----
+    let theme = localStorage.getItem('sd-theme') || 'dark';
+    setTheme(theme);
+
+    document.getElementById('theme-btn').addEventListener('click', () => {
+      theme = theme === 'dark' ? 'light' : 'dark';
+      localStorage.setItem('sd-theme', theme);
+      setTheme(theme);
+    });
+
+    function setTheme(t) {
+      document.documentElement.setAttribute('data-theme', t);
+      const icon = document.getElementById('theme-icon');
+      icon.setAttribute('stroke-width', '2');
+      if (t === 'dark') {
+        icon.innerHTML = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="currentColor" stroke="none"/>';
+      } else {
+        icon.innerHTML = '<circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="6.34" y2="6.34"/><line x1="17.66" y1="17.66" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="4.93" y1="19.07" x2="6.34" y2="17.66"/><line x1="17.66" y1="6.34" x2="19.07" y2="4.93"/>';
+      }
+    }
+
+    // ---- KEYBOARD SHORTCUTS ----
+    document.addEventListener('keydown', e => {
+      if ((e.key === '/' || (e.ctrlKey && e.key === 'k')) && document.activeElement !== searchInput) {
+        e.preventDefault();
+        searchInput.focus();
+      }
+      if (e.key === 'Escape' && document.activeElement === searchInput) {
+        searchInput.value = '';
+        query = '';
+        renderTools();
+        searchInput.blur();
+      }
+    });
+
+    searchInput.addEventListener('input', () => {
+      query = searchInput.value.toLowerCase().trim();
+      renderTools();
+    });
+
+    // ---- SORT ----
+    document.querySelectorAll('.sort-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        sortMode = btn.dataset.sort;
+        renderTools();
+      });
+    });
+
+    // ---- REFRESH ----
+    refreshBtn.addEventListener('click', () => {
+      if (!refreshBtn.classList.contains('spinning')) fetchTools();
+    });
+
+    // ---- SKELETON LOADER ----
+    function showSkeletons(n = 6) {
+      mainGrid.innerHTML = Array.from({ length: n }, () => `
+        <div class="skeleton">
+          <div class="skel-line" style="width:40px;height:26px;margin-bottom:4px"></div>
+          <div class="skel-line" style="width:60%;height:18px"></div>
+          <div class="skel-line" style="width:100%;height:12px;margin-top:4px"></div>
+          <div class="skel-line" style="width:80%;height:12px"></div>
+          <div class="skel-line" style="width:100%;height:36px;margin-top:6px;border-radius:7px"></div>
+        </div>`).join('');
+    }
+
+    // ---- FETCH GITHUB REPOS ----
+    async function fetchTools() {
+      showSkeletons();
+      pinnedSec.style.display = 'none';
+      syncText.textContent = 'Syncing…';
+      refreshBtn.classList.add('spinning');
+
+      try {
+        let page = 1, repos = [];
+        while (true) {
+          const res  = await fetch(`https://api.github.com/users/${CONFIG.github_username}/repos?per_page=100&page=${page}`);
+          const data = await res.json();
+          if (!Array.isArray(data) || !data.length) break;
+          repos = repos.concat(data);
+          if (data.length < 100) break;
+          page++;
+        }
+
+        const githubTools = repos
+          .filter(r => r.has_pages && !CONFIG.hidden.includes(r.name))
+          .map(r => {
+            const ov  = CONFIG.overrides[r.name] || {};
+            const url = r.name === `${CONFIG.github_username}.github.io`
+              ? `https://${CONFIG.github_username}.github.io`
+              : `https://${CONFIG.github_username}.github.io/${r.name}`;
+            return {
+              id:          r.name,
+              name:        ov.name        || slugToName(r.name),
+              description: ov.description || r.description || 'No description provided.',
+              url,
+              github_url:  r.html_url,
+              icon:        ov.icon        || autoIcon(r.name),
+              pinned:      CONFIG.pinned.includes(r.name),
+              updated:     r.pushed_at,
+              source:      'github'
+            };
+          });
+
+        const externalTools = CONFIG.external_tools.map(t => ({
+          ...t,
+          github_url: null,
+          source:     'external',
+          pinned:     t.pinned || CONFIG.pinned.includes(t.id)
+        }));
+
+        allTools = [...githubTools, ...externalTools];
+
+        const now = new Date();
+        const ts  = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        const ds  = now.toLocaleDateString([], { month: 'short', day: 'numeric', year: 'numeric' });
+
+        syncText.textContent   = `Synced ${ts}`;
+        footerSync.textContent = `Last synced: ${ds}, ${ts}`;
+        statCount.textContent  = allTools.length;
+
+        const ghCount  = githubTools.length;
+        const extCount = externalTools.length;
+        hGithub.innerHTML   = `<span>${ghCount}</span>`;
+        hExternal.innerHTML = `<span>${extCount}</span>`;
+
+        renderTools();
+      } catch (err) {
+        mainGrid.innerHTML = `<div class="state-box"><div class="state-icon">⚠️</div><div class="state-msg">Failed to load. Check your internet and try again.</div></div>`;
+        syncText.textContent = 'Error';
+        console.error('[ToolHub] Fetch error:', err);
+      } finally {
+        refreshBtn.classList.remove('spinning');
+      }
+    }
+
+    // ---- RENDER ----
+    function renderTools() {
+      let list = allTools.filter(t => {
+        if (!query) return true;
+        return t.name.toLowerCase().includes(query) || (t.description || '').toLowerCase().includes(query);
+      });
+
+      if (sortMode === 'az') {
+        list.sort((a, b) => a.name.localeCompare(b.name));
+      } else if (sortMode === 'updated') {
+        list.sort((a, b) => {
+          const da = a.updated ? new Date(a.updated) : 0;
+          const db = b.updated ? new Date(b.updated) : 0;
+          return db - da;
+        });
+      }
+
+      const pinned = list.filter(t => t.pinned);
+      const rest   = list.filter(t => !t.pinned);
+      const total  = allTools.length;
+
+      resultCount.innerHTML = list.length === total
+        ? `<strong>${total}</strong> tools total`
+        : `Showing <strong>${list.length}</strong> of <strong>${total}</strong> tools`;
+
+      // Pinned grid (default sort, no search active)
+      if (pinned.length && !query && sortMode === 'default') {
+        pinnedSec.style.display = 'block';
+        pinnedGrid.innerHTML = pinned.map((t, i) => buildCard(t, i)).join('');
+      } else {
+        pinnedSec.style.display = 'none';
+      }
+
+      // Main grid
+      const toShow = (!query && sortMode === 'default') ? rest : list;
+
+      if (!toShow.length && !allTools.length) {
+        mainGrid.innerHTML = '';
+        return;
+      }
+
+      if (!toShow.length) {
+        mainGrid.innerHTML = `<div class="state-box"><div class="state-icon">🔍</div><div class="state-msg">No tools match "${query}"</div></div>`;
+      } else {
+        mainGrid.innerHTML = toShow.map((t, i) => buildCard(t, i)).join('');
+      }
+
+      // Wire copy buttons
+      document.querySelectorAll('[data-copy]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          navigator.clipboard.writeText(btn.dataset.copy).then(() => showToast('Link copied!'));
+        });
+      });
+    }
+
+    // ---- CARD BUILDER ----
+    function buildCard(tool, idx) {
+      const delay = Math.min(idx * 35, 280);
+
+      const updMeta = tool.updated
+        ? `<span>${relTime(tool.updated)}</span>`
+        : '';
+
+      const sourceBadge = tool.source === 'github'
+        ? `<span class="badge badge-gh">GitHub Pages</span>`
+        : `<span class="badge badge-ext">External</span>`;
+
+      const pinnedBadge = tool.pinned
+        ? `<span class="badge badge-pin">Pinned</span>`
+        : '';
+
+      const githubBtn = tool.github_url
+        ? `<a class="btn-sm" href="${tool.github_url}" target="_blank" rel="noopener" title="View source on GitHub">
+             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+           </a>`
+        : `<span class="btn-sm disabled" title="External — no GitHub source">
+             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+           </span>`;
+
+      return `
+        <div class="card${tool.pinned ? ' is-pinned' : ''}" style="animation-delay:${delay}ms">
+          <div class="card-top">
+            <span class="card-icon">${tool.icon}</span>
+            <div class="card-badges">
+              ${pinnedBadge}
+              ${sourceBadge}
+            </div>
+          </div>
+          <div class="card-name">${tool.name}</div>
+          <div class="card-desc">${tool.description}</div>
+          ${updMeta ? `<div class="card-meta">Updated ${updMeta}</div>` : ''}
+          <div class="card-actions">
+            <a class="btn-open" href="${tool.url}" target="_blank" rel="noopener">
+              Open Tool
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+            </a>
+            <button class="btn-sm" data-copy="${tool.url}" title="Copy link">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            </button>
+            ${githubBtn}
+          </div>
+        </div>`;
+    }
+
+    // ---- HELPERS ----
+    function slugToName(slug) {
+      return slug.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+    }
+
+    function autoIcon(name) {
+      const n = name.toLowerCase();
+      if (/monitor|track|stat|analyt/.test(n))    return '📊';
+      if (/image|photo|pic|img/.test(n))           return '🖼️';
+      if (/news|article|post|blog/.test(n))        return '📰';
+      if (/home|house|smart/.test(n))              return '🏠';
+      if (/search|find|discover/.test(n))          return '🔍';
+      if (/dash|board|panel/.test(n))              return '📋';
+      if (/write|edit|draft/.test(n))              return '✍️';
+      if (/ai|gen|gpt|llm/.test(n))               return '🤖';
+      if (/calc|math|convert/.test(n))             return '🧮';
+      if (/ext|plugin|addon/.test(n))              return '🧩';
+      if (/schedule|plan|cal/.test(n))             return '📅';
+      if (/check|valid|test/.test(n))              return '✅';
+      return '🛠️';
+    }
+
+    function relTime(dateStr) {
+      const diff = Date.now() - new Date(dateStr).getTime();
+      const d = Math.floor(diff / 86400000);
+      if (d === 0)    return 'today';
+      if (d === 1)    return 'yesterday';
+      if (d < 7)      return `${d}d ago`;
+      if (d < 30)     return `${Math.ceil(d/7)}w ago`;
+      if (d < 365)    return `${Math.floor(d/30)}mo ago`;
+      return `${Math.floor(d/365)}y ago`;
+    }
+
+    let toastTimer;
+    function showToast(msg) {
+      toastEl.textContent = msg;
+      toastEl.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toastEl.classList.remove('show'), 2400);
+    }
+
+    // ---- INIT ----
+    showSkeletons();
+    fetchTools();
+  </script>
+</body>
+</html>

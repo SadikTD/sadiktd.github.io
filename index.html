@@ -4,35 +4,27 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sadik's Tool Hub</title>
-  <meta name="description" content="A centralized hub for all of Sadik's web tools and utilities.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@400;500;600;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
-      --accent: #DC2626;
-      --accent-dim: rgba(220,38,38,0.12);
-      --accent-hover: #ef4444;
-      --radius: 7px;
-      --transition: 0.18s ease;
+      --accent: #DC2626; --accent-dim: rgba(220,38,38,0.12); --accent-hover: #ef4444;
+      --radius: 7px; --transition: 0.18s ease;
     }
-
     [data-theme="dark"] {
-      --bg: #0b0b0b; --bg-card: #131313; --bg-card-hover: #1a1a1a;
-      --bg-input: #131313; --border: #242424; --border-hover: #383838;
-      --text-primary: #ededed; --text-secondary: #737373; --text-muted: #3d3d3d;
+      --bg: #0b0b0b; --bg-card: #131313; --bg-card-hover: #1a1a1a; --bg-input: #131313;
+      --border: #242424; --border-hover: #383838; --text-primary: #ededed;
+      --text-secondary: #737373; --text-muted: #3d3d3d;
       --shadow: 0 8px 32px rgba(0,0,0,0.5); --header-bg: rgba(11,11,11,0.92);
     }
-
     [data-theme="light"] {
-      --bg: #f0ede8; --bg-card: #ffffff; --bg-card-hover: #faf9f7;
-      --bg-input: #ffffff; --border: #dedad3; --border-hover: #c5c0b8;
-      --text-primary: #141414; --text-secondary: #636363; --text-muted: #b8b3ab;
+      --bg: #f0ede8; --bg-card: #ffffff; --bg-card-hover: #faf9f7; --bg-input: #ffffff;
+      --border: #dedad3; --border-hover: #c5c0b8; --text-primary: #141414;
+      --text-secondary: #636363; --text-muted: #b8b3ab;
       --shadow: 0 8px 32px rgba(0,0,0,0.07); --header-bg: rgba(240,237,232,0.92);
     }
-
     html { scroll-behavior: smooth; }
     body {
       background: var(--bg); color: var(--text-primary);
@@ -40,7 +32,140 @@
       transition: background var(--transition), color var(--transition);
     }
 
-    /* HEADER */
+    /* ===================================================
+       LOGIN SCREEN
+    =================================================== */
+    #login-screen {
+      display: none;
+      position: fixed; inset: 0; z-index: 9000;
+      background: #080808;
+      align-items: center; justify-content: center;
+      flex-direction: column;
+    }
+    #login-screen.active { display: flex; }
+
+    /* Subtle grid background */
+    #login-screen::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(220,38,38,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(220,38,38,0.04) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+    }
+
+    /* Red glow blob */
+    #login-screen::after {
+      content: '';
+      position: absolute;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(220,38,38,0.08) 0%, transparent 70%);
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    .login-card {
+      position: relative; z-index: 1;
+      width: 100%; max-width: 400px;
+      padding: 0 24px;
+      display: flex; flex-direction: column; align-items: center; gap: 0;
+      animation: loginFadeIn 0.5s ease both;
+    }
+
+    @keyframes loginFadeIn {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .login-logo {
+      width: 52px; height: 52px;
+      background: var(--accent); border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 900; font-size: 20px; color: #fff; letter-spacing: -0.05em;
+      margin-bottom: 20px;
+      box-shadow: 0 0 0 1px rgba(220,38,38,0.3), 0 8px 32px rgba(220,38,38,0.25);
+    }
+
+    .login-title {
+      font-size: 28px; font-weight: 900; letter-spacing: -0.03em;
+      color: #ededed; text-align: center; line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .login-subtitle {
+      font-family: 'JetBrains Mono', monospace; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.1em;
+      color: #444; text-align: center; margin-bottom: 36px;
+    }
+
+    .login-field {
+      width: 100%; position: relative; margin-bottom: 12px;
+    }
+
+    .login-input {
+      width: 100%; height: 48px; padding: 0 48px 0 16px;
+      background: #111; border: 1px solid #2a2a2a; border-radius: var(--radius);
+      color: #ededed; font-family: 'JetBrains Mono', monospace;
+      font-size: 16px; letter-spacing: 0.12em; outline: none;
+      transition: border-color var(--transition), box-shadow var(--transition);
+    }
+    .login-input::placeholder { color: #333; letter-spacing: 0.08em; }
+    .login-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(220,38,38,0.15);
+    }
+
+    .login-input.error {
+      border-color: var(--accent);
+      animation: shake 0.35s ease;
+    }
+
+    @keyframes shake {
+      0%,100% { transform: translateX(0); }
+      20%      { transform: translateX(-8px); }
+      40%      { transform: translateX(8px); }
+      60%      { transform: translateX(-5px); }
+      80%      { transform: translateX(5px); }
+    }
+
+    .login-eye {
+      position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+      background: none; border: none; cursor: pointer; color: #444;
+      padding: 4px; transition: color var(--transition);
+    }
+    .login-eye:hover { color: #888; }
+    .login-eye svg { width: 16px; height: 16px; display: block; }
+
+    .login-error {
+      font-family: 'JetBrains Mono', monospace; font-size: 11px;
+      color: var(--accent); text-align: center; margin-bottom: 10px;
+      height: 16px; opacity: 0; transition: opacity 0.2s;
+    }
+    .login-error.visible { opacity: 1; }
+
+    .login-btn {
+      width: 100%; height: 48px;
+      background: var(--accent); color: #fff; border: none;
+      border-radius: var(--radius); font-family: 'Barlow Semi Condensed', sans-serif;
+      font-size: 15px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+      cursor: pointer; transition: background var(--transition), transform var(--transition);
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .login-btn:hover { background: var(--accent-hover); transform: translateY(-1px); }
+    .login-btn:active { transform: translateY(0); }
+    .login-btn.loading { opacity: 0.7; pointer-events: none; }
+
+    .login-footer {
+      margin-top: 28px; font-family: 'JetBrains Mono', monospace;
+      font-size: 10px; color: #2a2a2a; text-align: center; letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    /* ===================================================
+       HEADER
+    =================================================== */
     .header {
       border-bottom: 1px solid var(--border); padding: 0 32px; height: 60px;
       display: flex; align-items: center; justify-content: space-between;
@@ -48,38 +173,25 @@
       backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); z-index: 100;
     }
     .logo { display: flex; align-items: center; gap: 12px; }
-    .logo-mark {
-      width: 28px; height: 28px; background: var(--accent); border-radius: 5px;
-      display: flex; align-items: center; justify-content: center;
-      font-weight: 900; font-size: 14px; color: #fff; letter-spacing: -0.05em;
-    }
+    .logo-mark { width: 28px; height: 28px; background: var(--accent); border-radius: 5px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 14px; color: #fff; letter-spacing: -0.05em; }
     .logo-text { display: flex; flex-direction: column; gap: 1px; }
     .logo-name { font-size: 15px; font-weight: 700; letter-spacing: -0.01em; color: var(--text-primary); line-height: 1; }
     .logo-tagline { font-size: 10px; font-family: 'JetBrains Mono', monospace; color: var(--text-secondary); letter-spacing: 0.06em; text-transform: uppercase; line-height: 1; }
     .header-right { display: flex; align-items: center; gap: 10px; }
-    .stat-pill {
-      font-family: 'JetBrains Mono', monospace; font-size: 11px;
-      padding: 4px 10px; border: 1px solid var(--border); border-radius: 100px;
-      color: var(--text-secondary); display: flex; align-items: center; gap: 5px; white-space: nowrap;
-    }
+    .stat-pill { font-family: 'JetBrains Mono', monospace; font-size: 11px; padding: 4px 10px; border: 1px solid var(--border); border-radius: 100px; color: var(--text-secondary); display: flex; align-items: center; gap: 5px; white-space: nowrap; }
     .stat-pill .dot { width: 5px; height: 5px; background: var(--accent); border-radius: 50%; }
-    .icon-btn {
-      width: 34px; height: 34px; border: 1px solid var(--border); border-radius: var(--radius);
-      background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center;
-      color: var(--text-secondary); transition: all var(--transition); flex-shrink: 0;
-    }
+    .icon-btn { width: 34px; height: 34px; border: 1px solid var(--border); border-radius: var(--radius); background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--text-secondary); transition: all var(--transition); flex-shrink: 0; }
     .icon-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
     .icon-btn svg { width: 15px; height: 15px; }
     .icon-btn.spinning svg { animation: spin 0.7s linear infinite; }
+    .logout-btn { height: 30px; padding: 0 12px; font-family: 'JetBrains Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; border: 1px solid var(--border); border-radius: 100px; background: transparent; color: var(--text-secondary); cursor: pointer; transition: all var(--transition); white-space: nowrap; }
+    .logout-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
 
-    /* MAIN */
+    /* ===================================================
+       MAIN
+    =================================================== */
     .main { max-width: 1180px; margin: 0 auto; padding: 32px 32px 48px; }
-
-    /* HERO */
-    .hero {
-      margin-bottom: 36px; padding-bottom: 32px; border-bottom: 1px solid var(--border);
-      display: flex; align-items: flex-end; justify-content: space-between; gap: 20px;
-    }
+    .hero { margin-bottom: 36px; padding-bottom: 32px; border-bottom: 1px solid var(--border); display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; }
     .hero-left h1 { font-size: clamp(36px, 5vw, 58px); font-weight: 900; line-height: 1.0; letter-spacing: -0.03em; color: var(--text-primary); margin-bottom: 10px; }
     .hero-left h1 em { color: var(--accent); font-style: normal; }
     .hero-left p { font-size: 15px; font-weight: 400; color: var(--text-secondary); max-width: 460px; line-height: 1.55; }
@@ -89,41 +201,22 @@
     .hero-stat-num span { color: var(--accent); }
     .hero-stat-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-secondary); margin-top: 3px; }
 
-    /* CACHE NOTICE */
-    .cache-notice {
-      display: none; align-items: center; gap: 10px; margin-bottom: 16px;
-      padding: 10px 14px; border: 1px solid var(--border); border-radius: var(--radius);
-      background: var(--bg-card);
-    }
-    .cache-notice.visible { display: flex; }
-    .cache-notice-text { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-secondary); flex: 1; }
-    .cache-notice-text strong { color: var(--text-primary); }
-    .cache-refresh-btn {
-      font-family: 'JetBrains Mono', monospace; font-size: 10px; text-transform: uppercase;
-      letter-spacing: 0.06em; padding: 4px 10px; border: 1px solid var(--border);
-      border-radius: 100px; background: transparent; color: var(--text-secondary);
-      cursor: pointer; transition: all var(--transition); white-space: nowrap;
-    }
-    .cache-refresh-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
+    /* NOTICE BAR */
+    .notice-bar { display: none; align-items: center; gap: 10px; margin-bottom: 16px; padding: 10px 14px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg-card); }
+    .notice-bar.visible { display: flex; }
+    .notice-bar-icon { font-size: 14px; flex-shrink: 0; }
+    .notice-bar-text { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-secondary); flex: 1; line-height: 1.6; }
+    .notice-bar-text strong { color: var(--text-primary); }
+    .notice-bar-btn { font-family: 'JetBrains Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; padding: 4px 10px; border: 1px solid var(--border); border-radius: 100px; background: transparent; color: var(--text-secondary); cursor: pointer; transition: all var(--transition); white-space: nowrap; flex-shrink: 0; }
+    .notice-bar-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
 
     /* SEARCH */
     .search-wrap { position: relative; margin-bottom: 20px; }
     .search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--text-muted); pointer-events: none; }
-    .search-input {
-      width: 100%; height: 44px; padding: 0 140px 0 42px;
-      border: 1px solid var(--border); border-radius: var(--radius);
-      background: var(--bg-input); color: var(--text-primary);
-      font-family: 'Barlow Semi Condensed', sans-serif; font-size: 15px; font-weight: 500;
-      outline: none; transition: border-color var(--transition), box-shadow var(--transition);
-    }
+    .search-input { width: 100%; height: 44px; padding: 0 140px 0 42px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg-input); color: var(--text-primary); font-family: 'Barlow Semi Condensed', sans-serif; font-size: 15px; font-weight: 500; outline: none; transition: border-color var(--transition), box-shadow var(--transition); }
     .search-input::placeholder { color: var(--text-muted); font-weight: 400; }
     .search-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-dim); }
-    .search-shortcut {
-      position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
-      font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-muted);
-      border: 1px solid var(--border); padding: 2px 7px; border-radius: 4px; pointer-events: none;
-      transition: opacity var(--transition);
-    }
+    .search-shortcut { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-muted); border: 1px solid var(--border); padding: 2px 7px; border-radius: 4px; pointer-events: none; transition: opacity var(--transition); }
     .search-input:focus ~ .search-shortcut { opacity: 0; }
 
     /* TOOLBAR */
@@ -131,36 +224,21 @@
     .result-count { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-secondary); }
     .result-count strong { color: var(--accent); font-weight: 500; }
     .sort-btns { display: flex; gap: 6px; }
-    .sort-btn {
-      height: 30px; padding: 0 12px; font-family: 'JetBrains Mono', monospace;
-      font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em;
-      border: 1px solid var(--border); border-radius: 100px;
-      background: transparent; color: var(--text-secondary); cursor: pointer; transition: all var(--transition);
-    }
+    .sort-btn { height: 30px; padding: 0 12px; font-family: 'JetBrains Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; border: 1px solid var(--border); border-radius: 100px; background: transparent; color: var(--text-secondary); cursor: pointer; transition: all var(--transition); }
     .sort-btn:hover, .sort-btn.active { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
 
     /* SECTION LABEL */
-    .section-label {
-      font-family: 'JetBrains Mono', monospace; font-size: 10px; text-transform: uppercase;
-      letter-spacing: 0.12em; color: var(--text-muted); margin-bottom: 14px;
-      display: flex; align-items: center; gap: 10px;
-    }
+    .section-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-muted); margin-bottom: 14px; display: flex; align-items: center; gap: 10px; }
     .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
 
     /* GRID */
     .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 14px; margin-bottom: 36px; }
 
     /* CARD */
-    .card {
-      background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
-      padding: 20px; display: flex; flex-direction: column; gap: 10px;
-      transition: border-color var(--transition), background var(--transition), box-shadow var(--transition), transform var(--transition);
-      animation: slideUp 0.35s ease both;
-    }
+    .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; display: flex; flex-direction: column; gap: 10px; transition: border-color var(--transition), background var(--transition), box-shadow var(--transition), transform var(--transition); animation: slideUp 0.35s ease both; }
     .card:hover { border-color: var(--border-hover); background: var(--bg-card-hover); box-shadow: var(--shadow); transform: translateY(-2px); }
     .card.is-pinned { border-left: 3px solid var(--accent); }
     @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
     .card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
     .card-icon { font-size: 26px; line-height: 1; flex-shrink: 0; }
     .card-badges { display: flex; gap: 5px; flex-wrap: wrap; }
@@ -169,26 +247,15 @@
     .badge-live { color: #22c55e; border-color: #22c55e; background: rgba(34,197,94,0.1); }
     .badge-repo { color: var(--text-muted); border-color: var(--border); }
     .badge-ext  { color: #f59e0b; border-color: #f59e0b; background: rgba(245,158,11,0.1); }
-
     .card-name { font-size: 17px; font-weight: 700; letter-spacing: -0.01em; color: var(--text-primary); line-height: 1.25; }
     .card-desc { font-size: 13px; font-weight: 400; color: var(--text-secondary); line-height: 1.55; flex: 1; }
     .card-meta { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-muted); }
     .card-actions { display: flex; gap: 8px; padding-top: 4px; }
-    .btn-open {
-      flex: 1; height: 36px; background: var(--accent); color: #fff; border: none;
-      border-radius: var(--radius); font-family: 'Barlow Semi Condensed', sans-serif;
-      font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
-      cursor: pointer; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 6px;
-      transition: background var(--transition), transform var(--transition);
-    }
+    .btn-open { flex: 1; height: 36px; background: var(--accent); color: #fff; border: none; border-radius: var(--radius); font-family: 'Barlow Semi Condensed', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; cursor: pointer; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 6px; transition: background var(--transition), transform var(--transition); }
     .btn-open:hover { background: var(--accent-hover); transform: translateY(-1px); }
     .btn-open.repo-only { background: transparent; color: var(--text-secondary); border: 1px solid var(--border); }
     .btn-open.repo-only:hover { background: var(--bg-card-hover); color: var(--text-primary); border-color: var(--border-hover); }
-    .btn-sm {
-      width: 36px; height: 36px; border: 1px solid var(--border); border-radius: var(--radius);
-      background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center;
-      color: var(--text-secondary); text-decoration: none; transition: all var(--transition); flex-shrink: 0;
-    }
+    .btn-sm { width: 36px; height: 36px; border: 1px solid var(--border); border-radius: var(--radius); background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--text-secondary); text-decoration: none; transition: all var(--transition); flex-shrink: 0; }
     .btn-sm:hover { border-color: var(--border-hover); color: var(--text-primary); }
     .btn-sm svg { width: 13px; height: 13px; }
     .btn-sm.ghost { opacity: 0.2; pointer-events: none; }
@@ -204,14 +271,7 @@
     .state-msg { font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-align: center; line-height: 1.8; }
 
     /* TOAST */
-    .toast {
-      position: fixed; bottom: 24px; right: 24px; background: var(--bg-card);
-      border: 1px solid var(--border); border-left: 3px solid var(--accent);
-      border-radius: var(--radius); padding: 11px 18px;
-      font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text-primary);
-      z-index: 9999; transform: translateY(80px); opacity: 0; pointer-events: none;
-      transition: transform 0.22s ease, opacity 0.22s ease; box-shadow: var(--shadow);
-    }
+    .toast { position: fixed; bottom: 24px; right: 24px; background: var(--bg-card); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: var(--radius); padding: 11px 18px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text-primary); z-index: 9999; transform: translateY(80px); opacity: 0; pointer-events: none; transition: transform 0.22s ease, opacity 0.22s ease; box-shadow: var(--shadow); }
     .toast.show { transform: translateY(0); opacity: 1; }
 
     /* FOOTER */
@@ -222,258 +282,253 @@
     .footer-links a:hover { color: var(--accent); }
 
     @media (max-width: 700px) {
-      .header { padding: 0 20px; }
-      .main { padding: 24px 20px 40px; }
+      .header { padding: 0 20px; } .main { padding: 24px 20px 40px; }
       .hero { flex-direction: column; gap: 16px; align-items: flex-start; }
-      .hero-stats { flex-direction: row; gap: 20px; }
-      .hero-stat { text-align: left; }
+      .hero-stats { flex-direction: row; gap: 20px; } .hero-stat { text-align: left; }
       .grid { grid-template-columns: 1fr; gap: 12px; }
       .stat-pill { display: none; }
       .footer { flex-direction: column; align-items: flex-start; padding: 16px 20px; }
     }
-
     @keyframes spin { to { transform: rotate(360deg); } }
   </style>
 </head>
 <body>
 
-  <header class="header">
-    <div class="logo">
-      <div class="logo-mark">ST</div>
-      <div class="logo-text">
-        <div class="logo-name">Sadik's Tools</div>
-        <div class="logo-tagline">Personal Tool Hub</div>
+  <!-- ===================== LOGIN SCREEN ===================== -->
+  <div id="login-screen">
+    <div class="login-card">
+      <div class="login-logo">ST</div>
+      <div class="login-title">Sadik's Tool Hub</div>
+      <div class="login-subtitle">Private Access Only</div>
+
+      <div class="login-field">
+        <input class="login-input" id="pw-input" type="password"
+               placeholder="Enter password" autocomplete="off" spellcheck="false">
+        <button class="login-eye" id="pw-eye" tabindex="-1" type="button">
+          <svg id="eye-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+            <circle cx="12" cy="12" r="3"/>
+          </svg>
+        </button>
       </div>
-    </div>
-    <div class="header-right">
-      <div class="stat-pill"><span class="dot"></span><span id="stat-count">—</span> tools</div>
-      <div class="stat-pill"><span id="sync-text">Loading…</span></div>
-      <button class="icon-btn" id="refresh-btn" title="Force refresh from GitHub (bypasses cache)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M1 4v6h6"/><path d="M23 20v-6h-6"/>
-          <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4-4.64 4.36A9 9 0 0 1 3.51 15"/>
-        </svg>
+
+      <div class="login-error" id="login-error">Incorrect password. Try again.</div>
+
+      <button class="login-btn" id="login-btn">
+        Enter
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
       </button>
-      <button class="icon-btn" id="theme-btn" title="Toggle light / dark">
-        <svg id="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"></svg>
-      </button>
-    </div>
-  </header>
 
-  <main class="main">
-    <div class="hero">
-      <div class="hero-left">
-        <h1>All Tools,<br><em>One Place.</em></h1>
-        <p>Every tool Sadik has built — auto-synced from GitHub. New repos appear here automatically, no manual updates needed.</p>
-      </div>
-      <div class="hero-stats">
-        <div class="hero-stat">
-          <div class="hero-stat-num" id="h-github"><span>—</span></div>
-          <div class="hero-stat-label">GitHub Repos</div>
-        </div>
-        <div class="hero-stat">
-          <div class="hero-stat-num" id="h-external"><span>—</span></div>
-          <div class="hero-stat-label">External Tools</div>
+      <div class="login-footer">sadiktd.github.io &nbsp;·&nbsp; Private</div>
+    </div>
+  </div>
+
+  <!-- ===================== HUB ===================== -->
+  <div id="hub" style="display:none">
+
+    <header class="header">
+      <div class="logo">
+        <div class="logo-mark">ST</div>
+        <div class="logo-text">
+          <div class="logo-name">Sadik's Tools</div>
+          <div class="logo-tagline">Personal Tool Hub</div>
         </div>
       </div>
-    </div>
-
-    <!-- Cache notice bar — shown when serving from cache -->
-    <div class="cache-notice" id="cache-notice">
-      <div class="cache-notice-text">
-        Showing cached data from <strong id="cache-age-text"></strong>.
-        GitHub API is only called once every 30 minutes to stay within rate limits.
+      <div class="header-right">
+        <div class="stat-pill"><span class="dot"></span><span id="stat-count">—</span> tools</div>
+        <div class="stat-pill"><span id="sync-text">Loading…</span></div>
+        <button class="icon-btn" id="refresh-btn" title="Force refresh (clears cache)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 4v6h6"/><path d="M23 20v-6h-6"/><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4-4.64 4.36A9 9 0 0 1 3.51 15"/></svg>
+        </button>
+        <button class="icon-btn" id="theme-btn" title="Toggle light / dark">
+          <svg id="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"></svg>
+        </button>
+        <button class="logout-btn" id="logout-btn">Logout</button>
       </div>
-      <button class="cache-refresh-btn" id="cache-refresh-btn">Force Refresh</button>
-    </div>
+    </header>
 
-    <div class="search-wrap">
-      <div class="search-icon">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <main class="main">
+      <div class="hero">
+        <div class="hero-left">
+          <h1>All Tools,<br><em>One Place.</em></h1>
+          <p>Every tool Sadik has built — auto-synced from GitHub. New repos appear here automatically.</p>
+        </div>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <div class="hero-stat-num" id="h-github"><span>—</span></div>
+            <div class="hero-stat-label">GitHub Repos</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-num" id="h-external"><span>—</span></div>
+            <div class="hero-stat-label">External Tools</div>
+          </div>
+        </div>
       </div>
-      <input class="search-input" id="search" type="text" placeholder="Search tools by name or description…" autocomplete="off" spellcheck="false">
-      <span class="search-shortcut">/ to focus · Esc to clear</span>
-    </div>
 
-    <div class="toolbar">
-      <div class="result-count" id="result-count"></div>
-      <div class="sort-btns">
-        <button class="sort-btn active" data-sort="default">Default</button>
-        <button class="sort-btn" data-sort="az">A – Z</button>
-        <button class="sort-btn" data-sort="updated">Latest</button>
+      <div class="notice-bar" id="notice-bar">
+        <div class="notice-bar-icon" id="notice-icon"></div>
+        <div class="notice-bar-text" id="notice-text"></div>
+        <button class="notice-bar-btn" id="notice-btn" style="display:none">Force Refresh</button>
       </div>
-    </div>
 
-    <div id="pinned-section" style="display:none">
-      <div class="section-label">Pinned</div>
-      <div class="grid" id="pinned-grid"></div>
-    </div>
+      <div class="search-wrap">
+        <div class="search-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div>
+        <input class="search-input" id="search" type="text" placeholder="Search tools by name or description…" autocomplete="off" spellcheck="false">
+        <span class="search-shortcut">/ to focus · Esc to clear</span>
+      </div>
 
-    <div class="section-label">All Tools</div>
-    <div class="grid" id="main-grid"></div>
-  </main>
+      <div class="toolbar">
+        <div class="result-count" id="result-count"></div>
+        <div class="sort-btns">
+          <button class="sort-btn active" data-sort="default">Default</button>
+          <button class="sort-btn" data-sort="az">A – Z</button>
+          <button class="sort-btn" data-sort="updated">Latest</button>
+        </div>
+      </div>
 
-  <footer class="footer">
-    <div class="footer-text" id="footer-sync">Last synced: —</div>
-    <div class="footer-links">
-      <a href="https://github.com/sadiktd" target="_blank" rel="noopener">GitHub</a>
-      <a href="https://sadiktd.github.io" target="_blank" rel="noopener">Homepage</a>
-    </div>
-  </footer>
+      <div id="pinned-section" style="display:none">
+        <div class="section-label">Pinned</div>
+        <div class="grid" id="pinned-grid"></div>
+      </div>
+
+      <div class="section-label">All Tools</div>
+      <div class="grid" id="main-grid"></div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-text" id="footer-sync">Last synced: —</div>
+      <div class="footer-links">
+        <a href="https://github.com/sadiktd" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://sadiktd.github.io" target="_blank" rel="noopener">Homepage</a>
+      </div>
+    </footer>
+
+  </div><!-- /hub -->
 
   <div class="toast" id="toast"></div>
 
   <script>
     // ================================================================
-    //  ⚙️  CONFIG
+    //  CREDENTIALS  (token is base64-split, password is SHA-256 hashed)
+    // ================================================================
+    const _PW  = '07e2959734528b50862784d6cff5a2cebbca4251cdc882c7382df8df3b21a8fc';
+    const _TKN = () => atob([
+      'Z2l0aHViX3BhdF8x','MUFRWUW2NlEwUDVi',
+      'MDdvMDZhNHVqX2FK','MlhhN2xmZktwOHY5',
+      'enNFc2o1dHg1dG9x','ZERSdGd3Y0JldFFr',
+      'MWhLRDg0WklKSUhJ','Q0dUakpDSjk2'
+    ].join(''));
+    // ================================================================
+
+    // ================================================================
+    //  CONFIG  — safe to commit, no secrets here
     // ================================================================
     const CONFIG = {
-
-      github_username: 'sadiktd',
-
-      // How long to cache GitHub API results before auto-refreshing (minutes)
-      // 30 minutes = safe for GitHub's 60 requests/hour unauthenticated limit
+      github_username:   'sadiktd',
       cache_ttl_minutes: 30,
+      session_hours:     12,
 
-      // Repo names to pin at top (case-insensitive)
-      pinned: [
-        'newsbreak-monitor',
-        'cc-image-finder'
-      ],
+      pinned: ['newsbreak-monitor', 'cc-image-finder'],
 
-      // Repos to completely hide
-      hidden: [
-        'sadiktd',
-        'sadiktd.github.io'
-      ],
+      hidden: ['sadiktd', 'sadiktd.github.io'],
 
-      // Custom name / description / icon overrides for GitHub repos
       overrides: {
-        'newsbreak-monitor': {
-          name: 'Newsbreak Article Monitor',
-          description: 'Track article performance across WGTC, AOTF, and Curveball publisher pages.',
-          icon: '📊'
-        },
-        'cc-image-finder': {
-          name: 'CC Image Finder',
-          description: 'Browser-based tool to search and download Creative Commons licensed images from multiple sources. Used by ~50 team members.',
-          icon: '🖼️'
-        },
-        'trello-card-tracker': {
-          name: 'Trello Card Tracker',
-          description: 'Track and manage Trello cards across boards. Built for editorial workflow management.',
-          icon: '📋'
-        },
-        'tff-analytics': {
-          name: 'TFF Analytics',
-          description: 'Analytics and performance tracking dashboard for The Front Feed news portal.',
-          icon: '📈'
-        },
-        'article-extractor-pro': {
-          name: 'Article Extractor Pro',
-          description: 'Browser extension to extract, clean, and reformat article content for editorial workflows.',
-          icon: '🧩'
-        }
+        'newsbreak-monitor':   { name: 'Newsbreak Article Monitor',  description: 'Track article performance across WGTC, AOTF, and Curveball publisher pages.', icon: '📊' },
+        'cc-image-finder':     { name: 'CC Image Finder',            description: 'Browser-based tool to search and download Creative Commons licensed images. Used by ~50 team members.', icon: '🖼️' },
+        'trello-card-tracker': { name: 'Trello Card Tracker',        description: 'Track and manage Trello cards across boards. Built for editorial workflow management.', icon: '📋' },
+        'tff-analytics':       { name: 'TFF Analytics',              description: 'Analytics and performance tracking dashboard for The Front Feed news portal.', icon: '📈' },
+        'article-extractor-pro':{ name: 'Article Extractor Pro',     description: 'Browser extension to extract, clean, and reformat article content for editorial workflows.', icon: '🧩' }
       },
 
-      // External tools (not hosted on GitHub)
       external_tools: [
-        // {
-        //   id: 'my-tool', name: 'My Tool', description: 'What it does.',
-        //   url: 'https://example.com', icon: '🔧', pinned: false, updated: '2025-12-01'
-        // }
+        // { id:'my-tool', name:'My Tool', description:'…', url:'https://…', icon:'🔧', pinned:false }
       ]
-
     };
     // ================================================================
-    //  END CONFIG
-    // ================================================================
 
-    const CACHE_KEY = 'sd_toolhub_cache';
+    const SESSION_KEY = 'sd_session_v1';
+    const CACHE_KEY   = 'sd_cache_v2';
+    const lc          = s => (s || '').toLowerCase();
+    const inList      = (a, v) => a.map(lc).includes(lc(v));
+    const slugName    = s => s.replace(/-/g,' ').replace(/\b\w/g, c => c.toUpperCase());
+    const $           = id => document.getElementById(id);
+    let toastTimer, allTools = [], sortMode = 'default', query = '';
 
-    const lc       = s => (s || '').toLowerCase();
-    const inList   = (arr, val) => arr.map(lc).includes(lc(val));
-    const slugName = s => s.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
-    const $        = id => document.getElementById(id);
-
-    function autoIcon(name) {
-      const n = lc(name);
-      if (/monitor|stat|analyt|track/.test(n))  return '📊';
-      if (/tff|analytics|insight|feed/.test(n)) return '📈';
-      if (/image|photo|pic|img|cc/.test(n))     return '🖼️';
-      if (/news|article|post|blog/.test(n))     return '📰';
-      if (/trello|card|board|task/.test(n))     return '📋';
-      if (/extract|scrape|parse/.test(n))       return '🧩';
-      if (/search|find|discover/.test(n))       return '🔍';
-      if (/home|house|smart/.test(n))           return '🏠';
-      if (/write|edit|draft|head/.test(n))      return '✍️';
-      if (/ai|gen|gpt|llm/.test(n))            return '🤖';
-      if (/calc|math|convert/.test(n))          return '🧮';
-      if (/schedule|plan|cal/.test(n))          return '📅';
-      if (/check|valid|test/.test(n))           return '✅';
-      if (/dash|panel|hub/.test(n))             return '🖥️';
-      return '🛠️';
+    // ---- SHA-256 via Web Crypto ----
+    async function sha256(str) {
+      const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+      return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
     }
 
-    function relTime(d) {
-      if (!d) return '';
-      const days = Math.floor((Date.now() - new Date(d)) / 86400000);
-      if (days === 0) return 'today';
-      if (days === 1) return 'yesterday';
-      if (days < 7)   return days + 'd ago';
-      if (days < 30)  return Math.ceil(days / 7) + 'w ago';
-      if (days < 365) return Math.floor(days / 30) + 'mo ago';
-      return Math.floor(days / 365) + 'y ago';
-    }
-
-    function cacheAge(ts) {
-      const mins = Math.floor((Date.now() - ts) / 60000);
-      if (mins < 1)  return 'just now';
-      if (mins < 60) return mins + ' min ago';
-      const hrs = Math.floor(mins / 60);
-      return hrs + ' hour' + (hrs > 1 ? 's' : '') + ' ago';
-    }
-
-    // ---- cache helpers ----
-    function saveCache(repos) {
+    // ---- Session ----
+    function sessionValid() {
       try {
-        localStorage.setItem(CACHE_KEY, JSON.stringify({ ts: Date.now(), repos }));
-      } catch(e) { /* localStorage full or blocked */ }
+        const s = JSON.parse(localStorage.getItem(SESSION_KEY) || 'null');
+        if (!s?.ts) return false;
+        return (Date.now() - s.ts) < CONFIG.session_hours * 3600000;
+      } catch(e) { return false; }
+    }
+    function createSession() { localStorage.setItem(SESSION_KEY, JSON.stringify({ ts: Date.now() })); }
+    function clearSession()  { localStorage.removeItem(SESSION_KEY); }
+
+    // ---- Login screen ----
+    function showLogin()  { $('login-screen').classList.add('active'); $('hub').style.display = 'none'; setTimeout(() => $('pw-input').focus(), 100); }
+    function showHub()    { $('login-screen').classList.remove('active'); $('hub').style.display = 'block'; }
+
+    async function attemptLogin() {
+      const val = $('pw-input').value.trim();
+      if (!val) return;
+
+      $('login-btn').classList.add('loading');
+      $('login-btn').textContent = '…';
+
+      const hash = await sha256(val);
+
+      $('login-btn').classList.remove('loading');
+      $('login-btn').innerHTML = 'Enter <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>';
+
+      if (hash === _PW) {
+        createSession();
+        showHub();
+        initHub();
+      } else {
+        $('pw-input').classList.add('error');
+        $('login-error').classList.add('visible');
+        setTimeout(() => $('pw-input').classList.remove('error'), 400);
+        $('pw-input').value = '';
+        $('pw-input').focus();
+      }
     }
 
-    function loadCache() {
-      try {
-        const raw = localStorage.getItem(CACHE_KEY);
-        if (!raw) return null;
-        return JSON.parse(raw);
-      } catch(e) { return null; }
-    }
+    $('login-btn').addEventListener('click', attemptLogin);
+    $('pw-input').addEventListener('keydown', e => { if (e.key === 'Enter') attemptLogin(); });
 
-    function clearCache() {
-      try { localStorage.removeItem(CACHE_KEY); } catch(e) {}
-    }
-
-    function isCacheValid(cached) {
-      if (!cached || !cached.ts || !cached.repos) return false;
-      const ageMs  = Date.now() - cached.ts;
-      const maxMs  = CONFIG.cache_ttl_minutes * 60 * 1000;
-      return ageMs < maxMs;
-    }
-
-    // ---- state ----
-    let allTools = [], sortMode = 'default', query = '';
-    let toastTimer;
-
-    // ---- theme ----
-    let theme = localStorage.getItem('sd-theme') || 'dark';
-    applyTheme(theme);
-
-    $('theme-btn').addEventListener('click', () => {
-      theme = theme === 'dark' ? 'light' : 'dark';
-      localStorage.setItem('sd-theme', theme);
-      applyTheme(theme);
+    // Eye toggle
+    $('pw-eye').addEventListener('click', () => {
+      const input = $('pw-input');
+      const isPass = input.type === 'password';
+      input.type = isPass ? 'text' : 'password';
+      $('eye-icon').innerHTML = isPass
+        ? '<line x1="1" y1="1" x2="23" y2="23"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 11 7 11 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.526 13.526 0 0 0 1 12s4 8 11 8a9.74 9.74 0 0 0 5.39-1.61"/>'
+        : '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';
     });
 
+    // Logout
+    $('logout-btn').addEventListener('click', () => {
+      clearSession();
+      clearCache();
+      $('pw-input').value = '';
+      $('login-error').classList.remove('visible');
+      showLogin();
+    });
+
+    // ---- Theme ----
+    let theme = localStorage.getItem('sd-theme') || 'dark';
+    applyTheme(theme);
+    $('theme-btn').addEventListener('click', () => {
+      theme = theme === 'dark' ? 'light' : 'dark';
+      localStorage.setItem('sd-theme', theme); applyTheme(theme);
+    });
     function applyTheme(t) {
       document.documentElement.setAttribute('data-theme', t);
       const ic = $('theme-icon');
@@ -482,48 +537,30 @@
         : '<circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="6.34" y2="6.34"/><line x1="17.66" y1="17.66" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="4.93" y1="19.07" x2="6.34" y2="17.66"/><line x1="17.66" y1="6.34" x2="19.07" y2="4.93"/>';
     }
 
-    // ---- keyboard shortcuts ----
+    // ---- Keyboard shortcuts ----
     document.addEventListener('keydown', e => {
+      if (!sessionValid()) return;
       const s = $('search');
-      if ((e.key === '/' || (e.ctrlKey && e.key === 'k')) && document.activeElement !== s) {
-        e.preventDefault(); s.focus();
-      }
-      if (e.key === 'Escape' && document.activeElement === s) {
-        s.value = ''; query = ''; renderTools(); s.blur();
-      }
+      if ((e.key === '/' || (e.ctrlKey && e.key === 'k')) && document.activeElement !== s) { e.preventDefault(); s.focus(); }
+      if (e.key === 'Escape' && document.activeElement === s) { s.value = ''; query = ''; renderTools(); s.blur(); }
     });
 
-    $('search').addEventListener('input', e => {
-      query = e.target.value.toLowerCase().trim();
-      renderTools();
-    });
+    // ---- Cache ----
+    function saveCache(repos) { try { localStorage.setItem(CACHE_KEY, JSON.stringify({ ts: Date.now(), repos })); } catch(e) {} }
+    function loadCache()      { try { const r = localStorage.getItem(CACHE_KEY); return r ? JSON.parse(r) : null; } catch(e) { return null; } }
+    function clearCache()     { try { localStorage.removeItem(CACHE_KEY); } catch(e) {} }
+    function cacheValid(c)    { return c?.ts && c?.repos && (Date.now() - c.ts) < CONFIG.cache_ttl_minutes * 60000; }
+    function cacheAge(ts)     { const m = Math.floor((Date.now()-ts)/60000); if(m<1)return'just now'; if(m<60)return m+'min ago'; return Math.floor(m/60)+'h ago'; }
 
-    document.querySelectorAll('.sort-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        sortMode = btn.dataset.sort;
-        renderTools();
-      });
-    });
+    // ---- Notice bar ----
+    function showNotice(icon, html, showBtn) { $('notice-icon').textContent=icon; $('notice-text').innerHTML=html; $('notice-btn').style.display=showBtn?'block':'none'; $('notice-bar').classList.add('visible'); }
+    function hideNotice() { $('notice-bar').classList.remove('visible'); }
+    $('notice-btn').addEventListener('click', () => { clearCache(); hideNotice(); fetchFromGitHub(); });
+    $('refresh-btn').addEventListener('click', () => { if($('refresh-btn').classList.contains('spinning'))return; clearCache(); hideNotice(); fetchFromGitHub(); });
 
-    // Refresh button — clears cache and force-fetches
-    $('refresh-btn').addEventListener('click', () => {
-      if ($('refresh-btn').classList.contains('spinning')) return;
-      clearCache();
-      fetchFromGitHub();
-    });
-
-    // Cache notice "Force Refresh" button
-    $('cache-refresh-btn').addEventListener('click', () => {
-      clearCache();
-      $('cache-notice').classList.remove('visible');
-      fetchFromGitHub();
-    });
-
-    // ---- skeletons ----
+    // ---- Skeletons ----
     function showSkeletons(n) {
-      $('main-grid').innerHTML = Array.from({ length: n || 6 }, (_, i) => `
+      $('main-grid').innerHTML = Array.from({length:n||6},(_,i)=>`
         <div class="skeleton" style="animation-delay:${i*40}ms">
           <div class="skel" style="width:40px;height:26px;margin-bottom:4px"></div>
           <div class="skel" style="width:60%;height:18px"></div>
@@ -534,210 +571,123 @@
         </div>`).join('');
     }
 
-    // ---- build tool objects from raw GitHub repos ----
+    // ---- Repos → tools ----
     function reposToTools(repos) {
       const uname = lc(CONFIG.github_username);
-      return repos
-        .filter(r => !r.private && !inList(CONFIG.hidden, r.name))
-        .map(r => {
-          const key = lc(r.name);
-          const ov  = Object.entries(CONFIG.overrides).find(([k]) => lc(k) === key)?.[1] || {};
-          const isRoot = key === uname + '.github.io';
-          const pagesUrl = isRoot
-            ? 'https://' + uname + '.github.io'
-            : 'https://' + uname + '.github.io/' + r.name;
-          return {
-            id:          r.name,
-            name:        ov.name        || slugName(r.name),
-            description: ov.description || r.description || 'No description provided.',
-            url:         r.has_pages ? pagesUrl : r.html_url,
-            github_url:  r.html_url,
-            has_pages:   r.has_pages,
-            icon:        ov.icon        || autoIcon(r.name),
-            pinned:      inList(CONFIG.pinned, r.name),
-            updated:     r.pushed_at,
-            source:      'github'
-          };
-        });
-    }
-
-    // ---- populate UI from tool list ----
-    function populateTools(githubTools, fromCache, cacheTs) {
-      const externalTools = (CONFIG.external_tools || []).map(t => ({
-        ...t, github_url: null, has_pages: false, source: 'external',
-        pinned: t.pinned || inList(CONFIG.pinned, t.id)
-      }));
-
-      allTools = [...githubTools, ...externalTools];
-
-      $('stat-count').textContent  = allTools.length;
-      $('h-github').innerHTML      = '<span>' + githubTools.length + '</span>';
-      $('h-external').innerHTML    = '<span>' + externalTools.length + '</span>';
-
-      if (fromCache && cacheTs) {
-        const ts  = new Date(cacheTs);
-        const tStr = ts.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        const dStr = ts.toLocaleDateString([], { month: 'short', day: 'numeric', year: 'numeric' });
-        $('sync-text').textContent      = 'Cached';
-        $('footer-sync').textContent    = 'Data from: ' + dStr + ', ' + tStr;
-        $('cache-age-text').textContent = cacheAge(cacheTs);
-        $('cache-notice').classList.add('visible');
-      } else {
-        const now  = new Date();
-        const tStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        const dStr = now.toLocaleDateString([], { month: 'short', day: 'numeric', year: 'numeric' });
-        $('sync-text').textContent   = 'Synced ' + tStr;
-        $('footer-sync').textContent = 'Last synced: ' + dStr + ', ' + tStr;
-        $('cache-notice').classList.remove('visible');
-      }
-
-      renderTools();
-    }
-
-    // ---- main fetch function (hits GitHub API) ----
-    async function fetchFromGitHub() {
-      showSkeletons();
-      $('pinned-section').style.display = 'none';
-      $('sync-text').textContent = 'Syncing…';
-      $('refresh-btn').classList.add('spinning');
-
-      try {
-        let page = 1, repos = [];
-        while (true) {
-          const res = await fetch(
-            'https://api.github.com/users/' + CONFIG.github_username + '/repos?per_page=100&page=' + page + '&sort=updated',
-            { headers: { 'Accept': 'application/vnd.github.v3+json' } }
-          );
-
-          if (res.status === 403 || res.status === 429) {
-            // Rate limited — load from cache if available, even if stale
-            const cached = loadCache();
-            if (cached && cached.repos) {
-              toast('Rate limited — showing last cached data');
-              populateTools(reposToTools(cached.repos), true, cached.ts);
-              return;
-            }
-            throw new Error('GitHub rate limit hit (403). Wait a few minutes, then click the refresh button.');
-          }
-
-          if (!res.ok) throw new Error('GitHub API error ' + res.status);
-
-          const batch = await res.json();
-          if (!Array.isArray(batch) || !batch.length) break;
-          repos = repos.concat(batch);
-          if (batch.length < 100) break;
-          page++;
-        }
-
-        // Save to cache
-        saveCache(repos);
-
-        populateTools(reposToTools(repos), false, null);
-
-      } catch (err) {
-        $('main-grid').innerHTML = `
-          <div class="state-box">
-            <div class="state-icon">⚠️</div>
-            <div class="state-msg">${err.message}</div>
-          </div>`;
-        $('sync-text').textContent = 'Error — click ↻ to retry';
-        console.error('[ToolHub]', err);
-      } finally {
-        $('refresh-btn').classList.remove('spinning');
-      }
-    }
-
-    // ---- init: try cache first, only call GitHub if needed ----
-    function init() {
-      showSkeletons();
-
-      const cached = loadCache();
-
-      if (isCacheValid(cached)) {
-        // Cache is fresh — use it immediately, no API call
-        populateTools(reposToTools(cached.repos), true, cached.ts);
-      } else {
-        // Cache is stale or missing — fetch from GitHub
-        fetchFromGitHub();
-      }
-    }
-
-    // ---- render ----
-    function renderTools() {
-      let list = allTools.filter(t =>
-        !query || lc(t.name).includes(query) || lc(t.description).includes(query)
-      );
-
-      if (sortMode === 'az') {
-        list.sort((a, b) => a.name.localeCompare(b.name));
-      } else if (sortMode === 'updated') {
-        list.sort((a, b) => (b.updated ? +new Date(b.updated) : 0) - (a.updated ? +new Date(a.updated) : 0));
-      }
-
-      const pinned = list.filter(t => t.pinned);
-      const rest   = list.filter(t => !t.pinned);
-
-      $('result-count').innerHTML = list.length === allTools.length
-        ? '<strong>' + allTools.length + '</strong> tools total'
-        : 'Showing <strong>' + list.length + '</strong> of <strong>' + allTools.length + '</strong> tools';
-
-      const showPinned = pinned.length && !query && sortMode === 'default';
-      $('pinned-section').style.display = showPinned ? 'block' : 'none';
-      if (showPinned) $('pinned-grid').innerHTML = pinned.map(buildCard).join('');
-
-      const toShow = (!query && sortMode === 'default') ? rest : list;
-      $('main-grid').innerHTML = toShow.length
-        ? toShow.map(buildCard).join('')
-        : '<div class="state-box"><div class="state-icon">🔍</div><div class="state-msg">No tools match "' + query + '"</div></div>';
-
-      document.querySelectorAll('[data-copy]').forEach(btn => {
-        btn.addEventListener('click', () => {
-          navigator.clipboard.writeText(btn.dataset.copy).then(() => toast('Link copied!'));
-        });
+      return repos.filter(r => !r.private && !inList(CONFIG.hidden, r.name)).map(r => {
+        const key = lc(r.name);
+        const ov  = Object.entries(CONFIG.overrides).find(([k])=>lc(k)===key)?.[1]||{};
+        const pagesUrl = key===uname+'.github.io' ? 'https://'+uname+'.github.io' : 'https://'+uname+'.github.io/'+r.name;
+        return {
+          id: r.name, name: ov.name||slugName(r.name),
+          description: ov.description||r.description||'No description provided.',
+          url: r.has_pages?pagesUrl:r.html_url, github_url: r.html_url,
+          has_pages: r.has_pages, icon: ov.icon||autoIcon(r.name),
+          pinned: inList(CONFIG.pinned,r.name), updated: r.pushed_at, source:'github'
+        };
       });
     }
 
-    // ---- card builder ----
-    function buildCard(t, i) {
-      const delay      = Math.min((i || 0) * 35, 300);
-      const isLive     = t.has_pages || t.source === 'external';
-      const btnClass   = isLive ? 'btn-open' : 'btn-open repo-only';
-      const btnLabel   = isLive ? 'Open Tool' : 'View Repo';
-      const arrowSvg   = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>';
-
-      const sourceBadge = t.source === 'external'
-        ? '<span class="badge badge-ext">External</span>'
-        : t.has_pages
-          ? '<span class="badge badge-live">● Live</span>'
-          : '<span class="badge badge-repo">Repo</span>';
-
-      const ghBtn = t.github_url
-        ? '<a class="btn-sm" href="' + t.github_url + '" target="_blank" rel="noopener" title="View on GitHub"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg></a>'
-        : '<span class="btn-sm ghost"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></span>';
-
-      return '<div class="card' + (t.pinned ? ' is-pinned' : '') + '" style="animation-delay:' + delay + 'ms">'
-        + '<div class="card-top"><span class="card-icon">' + t.icon + '</span>'
-        + '<div class="card-badges">' + (t.pinned ? '<span class="badge badge-pin">Pinned</span>' : '') + sourceBadge + '</div></div>'
-        + '<div class="card-name">' + t.name + '</div>'
-        + '<div class="card-desc">' + t.description + '</div>'
-        + (t.updated ? '<div class="card-meta">Updated ' + relTime(t.updated) + '</div>' : '')
-        + '<div class="card-actions">'
-        + '<a class="' + btnClass + '" href="' + t.url + '" target="_blank" rel="noopener">' + btnLabel + ' ' + arrowSvg + '</a>'
-        + '<button class="btn-sm" data-copy="' + t.url + '" title="Copy link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>'
-        + ghBtn
-        + '</div></div>';
+    // ---- Fetch with token ----
+    async function fetchAllRepos() {
+      const token = _TKN();
+      let page = 1, repos = [];
+      while(true) {
+        const res = await fetch(
+          'https://api.github.com/users/'+CONFIG.github_username+'/repos?per_page=100&page='+page+'&sort=updated',
+          { headers: { 'Accept':'application/vnd.github.v3+json', 'Authorization':'Bearer '+token } }
+        );
+        if(res.status===403||res.status===429) throw new Error('Rate limited ('+res.status+'). Cache will be used or try again in a minute.');
+        if(!res.ok) throw new Error('GitHub API error '+res.status);
+        const batch = await res.json();
+        if(!Array.isArray(batch)||!batch.length) break;
+        repos = repos.concat(batch);
+        if(batch.length<100) break;
+        page++;
+      }
+      return repos;
     }
 
-    function toast(msg) {
-      const el = $('toast');
-      el.textContent = msg;
-      el.classList.add('show');
-      clearTimeout(toastTimer);
-      toastTimer = setTimeout(() => el.classList.remove('show'), 2600);
+    // ---- Populate UI ----
+    function populateTools(githubTools, meta) {
+      const ext = (CONFIG.external_tools||[]).map(t=>({...t,github_url:null,has_pages:false,source:'external',pinned:t.pinned||inList(CONFIG.pinned,t.id||'')}));
+      allTools = [...githubTools,...ext];
+      $('stat-count').textContent = allTools.length;
+      $('h-github').innerHTML  = '<span>'+githubTools.length+'</span>';
+      $('h-external').innerHTML= '<span>'+ext.length+'</span>';
+
+      if(meta.fromCache) {
+        const d=new Date(meta.ts), tStr=d.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}), dStr=d.toLocaleDateString([],{month:'short',day:'numeric',year:'numeric'});
+        $('sync-text').textContent='Cached'; $('footer-sync').textContent='Data from: '+dStr+', '+tStr;
+        showNotice('🗄️','Showing cached data from <strong>'+cacheAge(meta.ts)+'</strong>. GitHub API called every '+CONFIG.cache_ttl_minutes+' min max.',true);
+      } else {
+        const now=new Date(), tStr=now.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}), dStr=now.toLocaleDateString([],{month:'short',day:'numeric',year:'numeric'});
+        $('sync-text').textContent='Synced '+tStr; $('footer-sync').textContent='Last synced: '+dStr+', '+tStr;
+        hideNotice();
+      }
+      renderTools();
     }
 
-    // Start
-    init();
+    // ---- Fetch orchestrator ----
+    async function fetchFromGitHub() {
+      showSkeletons(); $('pinned-section').style.display='none'; $('sync-text').textContent='Syncing…'; $('refresh-btn').classList.add('spinning');
+      try {
+        const repos = await fetchAllRepos();
+        saveCache(repos); populateTools(reposToTools(repos),{fromCache:false});
+      } catch(err) {
+        const c=loadCache();
+        if(c?.repos){ toast('API issue — showing cached data'); populateTools(reposToTools(c.repos),{fromCache:true,ts:c.ts}); return; }
+        $('main-grid').innerHTML='<div class="state-box"><div class="state-icon">⚠️</div><div class="state-msg">'+err.message+'</div></div>';
+        $('sync-text').textContent='Error — click ↻';
+        console.error('[ToolHub]',err);
+      } finally { $('refresh-btn').classList.remove('spinning'); }
+    }
+
+    // ---- Search & sort ----
+    $('search').addEventListener('input', e => { query=e.target.value.toLowerCase().trim(); renderTools(); });
+    document.querySelectorAll('.sort-btn').forEach(btn=>{
+      btn.addEventListener('click',()=>{document.querySelectorAll('.sort-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');sortMode=btn.dataset.sort;renderTools();});
+    });
+
+    // ---- Render ----
+    function renderTools() {
+      let list=allTools.filter(t=>!query||lc(t.name).includes(query)||lc(t.description).includes(query));
+      if(sortMode==='az') list.sort((a,b)=>a.name.localeCompare(b.name));
+      else if(sortMode==='updated') list.sort((a,b)=>(b.updated?+new Date(b.updated):0)-(a.updated?+new Date(a.updated):0));
+      const pinned=list.filter(t=>t.pinned), rest=list.filter(t=>!t.pinned);
+      $('result-count').innerHTML=list.length===allTools.length?'<strong>'+allTools.length+'</strong> tools total':'Showing <strong>'+list.length+'</strong> of <strong>'+allTools.length+'</strong> tools';
+      const sp=pinned.length&&!query&&sortMode==='default';
+      $('pinned-section').style.display=sp?'block':'none';
+      if(sp) $('pinned-grid').innerHTML=pinned.map(buildCard).join('');
+      const toShow=(!query&&sortMode==='default')?rest:list;
+      $('main-grid').innerHTML=toShow.length?toShow.map(buildCard).join(''):'<div class="state-box"><div class="state-icon">🔍</div><div class="state-msg">No tools match "'+query+'"</div></div>';
+      document.querySelectorAll('[data-copy]').forEach(btn=>{btn.addEventListener('click',()=>navigator.clipboard.writeText(btn.dataset.copy).then(()=>toast('Link copied!')));});
+    }
+
+    // ---- Card ----
+    function buildCard(t,i){
+      const delay=Math.min((i||0)*35,300),isLive=t.has_pages||t.source==='external';
+      const arrow='<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>';
+      const src=t.source==='external'?'<span class="badge badge-ext">External</span>':t.has_pages?'<span class="badge badge-live">● Live</span>':'<span class="badge badge-repo">Repo</span>';
+      const gh=t.github_url?'<a class="btn-sm" href="'+t.github_url+'" target="_blank" rel="noopener" title="View on GitHub"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg></a>':'<span class="btn-sm ghost"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></span>';
+      return '<div class="card'+(t.pinned?' is-pinned':'')+'" style="animation-delay:'+delay+'ms"><div class="card-top"><span class="card-icon">'+t.icon+'</span><div class="card-badges">'+(t.pinned?'<span class="badge badge-pin">Pinned</span>':'')+src+'</div></div><div class="card-name">'+t.name+'</div><div class="card-desc">'+t.description+'</div>'+(t.updated?'<div class="card-meta">Updated '+relTime(t.updated)+'</div>':'')+'<div class="card-actions"><a class="'+(isLive?'btn-open':'btn-open repo-only')+'" href="'+t.url+'" target="_blank" rel="noopener">'+(isLive?'Open Tool':'View Repo')+' '+arrow+'</a><button class="btn-sm" data-copy="'+t.url+'" title="Copy link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>'+gh+'</div></div>';
+    }
+
+    function autoIcon(n){n=lc(n);if(/monitor|stat|analyt|track/.test(n))return'📊';if(/tff|analytics|insight|feed/.test(n))return'📈';if(/image|photo|pic|img|cc/.test(n))return'🖼️';if(/news|article|post|blog/.test(n))return'📰';if(/trello|card|board|task/.test(n))return'📋';if(/extract|scrape|parse/.test(n))return'🧩';if(/search|find|discover/.test(n))return'🔍';if(/home|house|smart/.test(n))return'🏠';if(/write|edit|draft|head/.test(n))return'✍️';if(/ai|gen|gpt|llm/.test(n))return'🤖';if(/calc|math|convert/.test(n))return'🧮';if(/schedule|plan|cal/.test(n))return'📅';if(/dash|panel|hub/.test(n))return'🖥️';return'🛠️';}
+    function relTime(d){if(!d)return'';const days=Math.floor((Date.now()-new Date(d))/86400000);if(days===0)return'today';if(days===1)return'yesterday';if(days<7)return days+'d ago';if(days<30)return Math.ceil(days/7)+'w ago';if(days<365)return Math.floor(days/30)+'mo ago';return Math.floor(days/365)+'y ago';}
+    function toast(msg){const el=$('toast');el.textContent=msg;el.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('show'),2600);}
+
+    // ---- Init hub (called after login) ----
+    function initHub() {
+      showSkeletons();
+      const c=loadCache();
+      if(cacheValid(c)) populateTools(reposToTools(c.repos),{fromCache:true,ts:c.ts});
+      else fetchFromGitHub();
+    }
+
+    // ---- Boot ----
+    if(sessionValid()) { showHub(); initHub(); }
+    else showLogin();
   </script>
 </body>
 </html>

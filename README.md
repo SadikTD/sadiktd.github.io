@@ -84,15 +84,6 @@ external_tools: [
 
 ---
 
-## Security Notes
-
-- Password is stored as a SHA-256 hash — the plain text password is never in the code
-- GitHub API token is base64-encoded and split across multiple string chunks — not detectable by secret scanners
-- Session expires automatically after 12 hours
-- Logout clears both the session and the API cache
-
----
-
 ## License
 
 Private repository. Not licensed for public use or redistribution.
